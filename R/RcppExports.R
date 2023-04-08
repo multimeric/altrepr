@@ -14,19 +14,38 @@
 #'
 #' @return A raw vector uniquely identifying the altrep class of `x`, or `NULL`
 #'   if `x` is not an altrep object.
-#' @seealso alt_classname alt_pkgname alt_type
+#' @seealso [alt_classname()] [alt_pkgname()] [alt_type()]
+#' @examples
+#' identical(alt_class(1:2), alt_class(2:3))
 alt_class <- function(x) {
     .Call('_altrepr_alt_class', PACKAGE = 'altrepr', x)
 }
 
+#' Gets the name of the altrep class of an object
+#'
+#' This is a a human-readable name for the altrep class.
+#'
+#' @return The class name as a [name()] (**not** a character), or `NULL` if
+#'   `x` is not an altrep object.
+#' @examples
+#' alt_classname(1:3)
 alt_classname <- function(x) {
     .Call('_altrepr_alt_classname', PACKAGE = 'altrepr', x)
 }
 
+#' Gets the package in which an altrep class was defined
+#'
+#' Specifically this finds the package in which the altrep class, which may
+#' not be the same as the S3/S4 [class()], was defined.
+#' @return The package name as a [character], or `NULL` if `x` is not an altrep
+#'   object.
+#' @examples
+#' alt_pkgname(1:3)
 alt_pkgname <- function(x) {
     .Call('_altrepr_alt_pkgname', PACKAGE = 'altrepr', x)
 }
 
+#' Gets the name of
 alt_type <- function(x) {
     .Call('_altrepr_alt_type', PACKAGE = 'altrepr', x)
 }

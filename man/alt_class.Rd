@@ -20,6 +20,9 @@ meaningful use of the class is to check its \code{\link[=attributes]{attributes(
 recommended that you instead use the three dedicated wrapper functions for
 these attributes: \code{\link[=alt_classname]{alt_classname()}}, \code{\link[=alt_pkgname]{alt_pkgname()}}, and \code{\link[=alt_type]{alt_type()}}.
 }
+\examples{
+identical(alt_class(1:2), alt_class(2:3))
+}
 \seealso{
-alt_classname alt_pkgname alt_type
+\code{\link[=alt_classname]{alt_classname()}} \code{\link[=alt_pkgname]{alt_pkgname()}} \code{\link[=alt_type]{alt_type()}}
 }
