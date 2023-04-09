@@ -22,7 +22,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // alt_classname
-RObject alt_classname(RObject x);
+CharacterVector alt_classname(RObject x);
 RcppExport SEXP _altrepr_alt_classname(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -33,7 +33,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // alt_pkgname
-RObject alt_pkgname(RObject x);
+CharacterVector alt_pkgname(RObject x);
 RcppExport SEXP _altrepr_alt_pkgname(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -44,7 +44,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // alt_type
-RObject alt_type(RObject x);
+CharacterVector alt_type(RObject x);
 RcppExport SEXP _altrepr_alt_type(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -87,6 +87,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// is_compact_vec
+LogicalVector is_compact_vec(RObject x);
+RcppExport SEXP _altrepr_is_compact_vec(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(is_compact_vec(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // compact_expand
 RObject compact_expand(RObject x);
 RcppExport SEXP _altrepr_compact_expand(SEXP xSEXP) {
@@ -95,6 +106,28 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(compact_expand(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// compact_is_expanded
+LogicalVector compact_is_expanded(RObject x);
+RcppExport SEXP _altrepr_compact_is_expanded(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(compact_is_expanded(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// compact_fields
+IntegerVector compact_fields(RObject x);
+RcppExport SEXP _altrepr_compact_fields(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(compact_fields(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -107,7 +140,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_altrepr_is_altrep", (DL_FUNC) &_altrepr_is_altrep, 1},
     {"_altrepr_alt_data1", (DL_FUNC) &_altrepr_alt_data1, 1},
     {"_altrepr_alt_data2", (DL_FUNC) &_altrepr_alt_data2, 1},
+    {"_altrepr_is_compact_vec", (DL_FUNC) &_altrepr_is_compact_vec, 1},
     {"_altrepr_compact_expand", (DL_FUNC) &_altrepr_compact_expand, 1},
+    {"_altrepr_compact_is_expanded", (DL_FUNC) &_altrepr_compact_is_expanded, 1},
+    {"_altrepr_compact_fields", (DL_FUNC) &_altrepr_compact_fields, 1},
     {NULL, NULL, 0}
 };
 

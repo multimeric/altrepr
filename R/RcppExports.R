@@ -101,8 +101,16 @@ alt_data2 <- function(x) {
     .Call('_altrepr_alt_data2', PACKAGE = 'altrepr', x)
 }
 
-#' Expands a compact vector, setting the value of its `data2` to a standard
-#' representation vector
+#' Checks for compact vector ALTREPs
+#' @export
+is_compact_vec <- function(x) {
+    .Call('_altrepr_is_compact_vec', PACKAGE = 'altrepr', x)
+}
+
+#' Forces a compact vector into extended form
+#'
+#' This will allocate the entire vector as a standard representation vector,
+#' and store it in the `data2` slot.
 #' @export
 #' @examples
 #' x = 1:3
@@ -110,5 +118,18 @@ alt_data2 <- function(x) {
 #' alt_inspect(x)
 compact_expand <- function(x) {
     .Call('_altrepr_compact_expand', PACKAGE = 'altrepr', x)
+}
+
+#' Checks if a compact vector has been expanded
+#' @return A logical scalar. `TRUE` if the vector is expanded, `FALSE` if it
+#'   is compact
+#' @export
+compact_is_expanded <- function(x) {
+    .Call('_altrepr_compact_is_expanded', PACKAGE = 'altrepr', x)
+}
+
+#' @export
+compact_fields <- function(x) {
+    .Call('_altrepr_compact_fields', PACKAGE = 'altrepr', x)
 }
 

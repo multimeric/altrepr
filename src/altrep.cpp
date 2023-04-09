@@ -9,6 +9,12 @@ Pairlist _all_attribs(RObject x){
   return ATTRIB(x);
 }
 
+void _assert_altrep(RObject x){
+  if (!_is_altrep(x)){
+    stop("Not ALTREP!");
+  }
+}
+
 //' Gets the altrep class of an object.
 //'
 //' The altrep class is not the same as the name of the class. For that,
@@ -27,6 +33,7 @@ Pairlist _all_attribs(RObject x){
 //' identical(alt_class(1:2), alt_class(2:3))
 // [[Rcpp::export]]
 RawVector alt_class(RObject x){
+  _assert_altrep(x);
   return ALTREP_CLASS(x);
 }
 
@@ -39,11 +46,9 @@ RawVector alt_class(RObject x){
 //' @examples
 //' alt_classname(1:3)
 // [[Rcpp::export]]
-RObject alt_classname(RObject x){
-  if (_is_altrep(x)){
-    return as<CharacterVector>(_all_attribs(alt_class(x))[0]);
-  }
-  return R_NilValue;
+CharacterVector alt_classname(RObject x){
+  _assert_altrep(x);
+  return as<CharacterVector>(_all_attribs(alt_class(x))[0]);
 }
 
 //' Gets the package in which an ALTREP class was defined
@@ -58,11 +63,9 @@ RObject alt_classname(RObject x){
 //' @examples
 //' alt_pkgname(1:3)
 // [[Rcpp::export]]
-RObject alt_pkgname(RObject x){
-  if (_is_altrep(x)){
-    return as<CharacterVector>(_all_attribs(alt_class(x))[1]);
-  }
-  return R_NilValue;
+CharacterVector alt_pkgname(RObject x){
+  _assert_altrep(x);
+  return as<CharacterVector>(_all_attribs(alt_class(x))[1]);
 }
 
 //' Gets the name of the type that this ALTREP is representing.
@@ -75,11 +78,9 @@ RObject alt_pkgname(RObject x){
 //' @examples
 //' alt_type(1:3)
 // [[Rcpp::export]]
-RObject alt_type(RObject x){
-  if (_is_altrep(x)){
+CharacterVector alt_type(RObject x){
+  _assert_altrep(x);
     return Rf_type2rstr((_all_attribs(alt_class(x))[2]));
-  }
-  return R_NilValue;
 }
 
 //' Checks if an R object is ALTREP

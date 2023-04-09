@@ -2,14 +2,13 @@
 % Please edit documentation in R/RcppExports.R
 \name{compact_expand}
 \alias{compact_expand}
-\title{Expands a compact vector, setting the value of its \code{data2} to a standard
-representation vector}
+\title{Forces a compact vector into extended form}
 \usage{
 compact_expand(x)
 }
 \description{
-Expands a compact vector, setting the value of its \code{data2} to a standard
-representation vector
+This will allocate the entire vector as a standard representation vector,
+and store it in the \code{data2} slot.
 }
 \examples{
 x = 1:3
