@@ -1,5 +1,5 @@
 ---
-title: "compact_seq"
+title: "Compact Sequences"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{compact_seq}
@@ -14,23 +14,21 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(altrepr)
-```
+# Background
 
-# Compact Sequences
-
-Let's start by looking at the "compact sequence", perhaps the most famous 
+Let's start by looking at the "compact sequences", perhaps the most famous 
 ALTREP class in R.
 
 Compact sequences [were introduced in R 3.5.0](https://cran.r-project.org/bin/windows/base/old/3.5.0/NEWS.R-3.5.0.html).
-They are simply simply integer (or double) vectors that, rather than storing every individual value in a given range, instead store the start and end of the range, which can save a lot of memory.
-
-They are created by the `:` operator, and by the `seq` family of functions.
-
-Let's investigate this class using altrepr!
+They are simply integer (or double) vectors that are represented as a "range": they store the start, length, and step of a sequence, rather than storing every individual element in that range, which can save a lot of memory. Compact sequences are created by the `:` operator, and by the `seq` family of functions. Let's investigate this class using altrepr!
 
 # The Tip of the Iceberg
+
+To start we need to load the `altrepr` package:
+
+```{r setup}
+library(altrepr)
+```
 
 Firstly, we can use the `is_altrep` class to distinguish between ALTREP and 
 ordinary vectors:
@@ -79,7 +77,7 @@ lobstr::obj_size(x)
 ```
 
 Now let's force the vector to expand. You will notice that this seemingly simple
-operation actually takes suspiciously long. This is of course because an 100 million
+operation actually takes suspiciously long. This is of course because a 100 million element
 standard representation vector is being generated behind the scenes:
 ```{r}
 system.time({
@@ -100,10 +98,12 @@ using ALTREP!
 
 # ALTREP Data
 
-ALTREP classes have two "slots" (not the same as S4 slots, but it's a helpful
-analogy) for storing data. These are respectively called `data1` and `data2`.
+ALTREP classes have two "slots" for storing data (not the same as S4 slots, but it's a helpful
+analogy). These are respectively called `data1` and `data2`.
 These slots can store any type of R object, including
 recursive types like lists, so this isn't really a restriction. 
+
+## `data1`
 
 In the case of compact sequences, `data1` is used to store the parameters
 of the sequence as an integer vector
@@ -126,13 +126,36 @@ alt_data1(2:3)
 alt_data1(3:2)
 ```
 
+## `data2` and the Expanded Form
+Compact seqs are considered to start in "compact" form, which we can see at the very end of the output from `alt_inspect`. 
+This function prints some internal information about the altrep vector which often seems to be informative when dealing with built-in ALTREP types:
+
 ```{r}
-alt_data2(1:3)
+x <- 1:3
+alt_inspect(x)
 ```
 
+"compact" means that `data2` is `NULL`, which is its initial value:
 
+```{r}
+alt_data2(x)
+```
 
-In this case, `data2` is often `NULL` until the
-//' type is expanded. For example `1:3` is an ALTREP that represents
-//' `c(1L, 2L, 3L)` in a compressed way. `altrep_data1(1:3)` returns
-//' `3 1 1`, which indicates the length of the sequence, the start of the sequence, and the dierction in which it runs
+However, when the `DATAPTR` of the sequence is accessed (which is a pointer to the array of data in the vector), it forces the compact sequence to expand.
+`altrepr` has a special built-in function that forces a compact vector to expand without any other side effects:
+
+```{r}
+compact_expand(x)
+alt_inspect(x)
+```
+
+Notably `x` is *still* ALTREP, it hasn't been coerced into a standard representation vector:
+```{r}
+is_altrep(x)
+```
+
+But the `data2` value, which is linked to the expanded form, is now set to a full vector of integer data:
+
+```{r}
+alt_data2(x)
+```

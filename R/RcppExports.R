@@ -11,7 +11,7 @@
 #' meaningful use of the class is to check its [attributes()], but it is
 #' recommended that you instead use the three dedicated wrapper functions for
 #' these attributes: [alt_classname()], [alt_pkgname()], and [alt_type()].
-#'
+#' @export
 #' @return A raw vector uniquely identifying the altrep class of `x`, or `NULL`
 #'   if `x` is not an altrep object.
 #' @seealso [alt_classname()] [alt_pkgname()] [alt_type()]
@@ -24,8 +24,8 @@ alt_class <- function(x) {
 #' Gets the name of the altrep class of an object
 #'
 #' This is a a human-readable name for the altrep class.
-#'
-#' @return The class name as a [name()] (**not** a character), or `NULL` if
+#' @export
+#' @return The class name as a [character], or `NULL` if
 #'   `x` is not an altrep object.
 #' @examples
 #' alt_classname(1:3)
@@ -33,10 +33,13 @@ alt_classname <- function(x) {
     .Call('_altrepr_alt_classname', PACKAGE = 'altrepr', x)
 }
 
-#' Gets the package in which an altrep class was defined
+#' Gets the package in which an ALTREP class was defined
 #'
-#' Specifically this finds the package in which the altrep class, which may
-#' not be the same as the S3/S4 [class()], was defined.
+#' Specifically this finds the name of the package in which the altrep class
+#' was defined. This is almost definitely not the same as the S3/S4 [class()],
+#' was defined, which is likely to be one of the core vector types like
+#' `integer`.
+#' @export
 #' @return The package name as a [character], or `NULL` if `x` is not an altrep
 #'   object.
 #' @examples
@@ -45,20 +48,67 @@ alt_pkgname <- function(x) {
     .Call('_altrepr_alt_pkgname', PACKAGE = 'altrepr', x)
 }
 
-#' Gets the name of
+#' Gets the name of the type that this ALTREP is representing.
+#'
+#' This will almost certainly return the same result as `typeof(x)`, but
+#' please let the author of this package know if it doesn't!
+#' @export
+#' @return The name of the fundamental vector type of that `x` is representing,
+#' as a [character] scalar. For example "integer" or "character".
+#' @examples
+#' alt_type(1:3)
 alt_type <- function(x) {
     .Call('_altrepr_alt_type', PACKAGE = 'altrepr', x)
 }
 
+#' Checks if an R object is ALTREP
+#'
+#' This checks if `x` is an instance of an ALTREP class. Notably it doesn't
+#' check if `x` **is** an ALTREP class, which is more difficult to achieve.
+#' @export
+#' @return A scalar logical
+#' @examples
+#' is_altrep(1)
+#' is_altrep(1:2)
 is_altrep <- function(x) {
     .Call('_altrepr_is_altrep', PACKAGE = 'altrepr', x)
 }
 
-altrep_data1 <- function(x) {
-    .Call('_altrepr_altrep_data1', PACKAGE = 'altrepr', x)
+#' Gets the first altrep data slot
+#'
+#' ALTREP objects have two data slots, both of which can hold any R type.
+#' The exact meaning of each slot can depend entirely on the ALTREP class and
+#' how it wants to represent data.
+#'
+#' Although the exact meaning of each slot is flexible, a *convention* used in
+#' R core is
+#' for `data1` to hold the "compressed" state of a type, and for `data2` to
+#' hold the "expanded" state. See the `compact_seq` vignette for more information
+#' @export
+#' @return Possibly any R object, including `NULL`
+#' @examples
+#' alt_data1(1:3)
+alt_data1 <- function(x) {
+    .Call('_altrepr_alt_data1', PACKAGE = 'altrepr', x)
 }
 
-altrep_data2 <- function(x) {
-    .Call('_altrepr_altrep_data2', PACKAGE = 'altrepr', x)
+#' Gets the second altrep data slot.
+#' @export
+#' @inherit alt_data1 description return
+#' @examples
+#' alt_data2(1:3)
+alt_data2 <- function(x) {
+    .Call('_altrepr_alt_data2', PACKAGE = 'altrepr', x)
+}
+
+#' Expands a compact vector, setting the value of its `data2` to a standard
+#' representation vector
+#' @export
+#' @examples
+#' x = 1:3
+#' compact_expand(x)
+#' alt_inspect(x)
+compact_expand <- function(x) {
+    .Call('_altrepr_compact_expand', PACKAGE = 'altrepr', x)
 }
 

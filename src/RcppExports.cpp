@@ -65,25 +65,36 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// altrep_data1
-RObject altrep_data1(RObject x);
-RcppExport SEXP _altrepr_altrep_data1(SEXP xSEXP) {
+// alt_data1
+RObject alt_data1(RObject x);
+RcppExport SEXP _altrepr_alt_data1(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(altrep_data1(x));
+    rcpp_result_gen = Rcpp::wrap(alt_data1(x));
     return rcpp_result_gen;
 END_RCPP
 }
-// altrep_data2
-RObject altrep_data2(RObject x);
-RcppExport SEXP _altrepr_altrep_data2(SEXP xSEXP) {
+// alt_data2
+RObject alt_data2(RObject x);
+RcppExport SEXP _altrepr_alt_data2(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(altrep_data2(x));
+    rcpp_result_gen = Rcpp::wrap(alt_data2(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// compact_expand
+RObject compact_expand(RObject x);
+RcppExport SEXP _altrepr_compact_expand(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(compact_expand(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -94,8 +105,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_altrepr_alt_pkgname", (DL_FUNC) &_altrepr_alt_pkgname, 1},
     {"_altrepr_alt_type", (DL_FUNC) &_altrepr_alt_type, 1},
     {"_altrepr_is_altrep", (DL_FUNC) &_altrepr_is_altrep, 1},
-    {"_altrepr_altrep_data1", (DL_FUNC) &_altrepr_altrep_data1, 1},
-    {"_altrepr_altrep_data2", (DL_FUNC) &_altrepr_altrep_data2, 1},
+    {"_altrepr_alt_data1", (DL_FUNC) &_altrepr_alt_data1, 1},
+    {"_altrepr_alt_data2", (DL_FUNC) &_altrepr_alt_data2, 1},
+    {"_altrepr_compact_expand", (DL_FUNC) &_altrepr_compact_expand, 1},
     {NULL, NULL, 0}
 };
 

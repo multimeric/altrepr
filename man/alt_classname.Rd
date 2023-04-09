@@ -7,7 +7,7 @@
 alt_classname(x)
 }
 \value{
-The class name as a \code{\link[=name]{name()}} (\strong{not} a character), or \code{NULL} if
+The class name as a \link{character}, or \code{NULL} if
 \code{x} is not an altrep object.
 }
 \description{

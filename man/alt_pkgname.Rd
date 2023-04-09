@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{alt_pkgname}
 \alias{alt_pkgname}
-\title{Gets the package in which an altrep class was defined}
+\title{Gets the package in which an ALTREP class was defined}
 \usage{
 alt_pkgname(x)
 }
@@ -11,8 +11,10 @@ The package name as a \link{character}, or \code{NULL} if \code{x} is not an alt
 object.
 }
 \description{
-Specifically this finds the package in which the altrep class, which may
-not be the same as the S3/S4 \code{\link[=class]{class()}}, was defined.
+Specifically this finds the name of the package in which the altrep class
+was defined. This is almost definitely not the same as the S3/S4 \code{\link[=class]{class()}},
+was defined, which is likely to be one of the core vector types like
+\code{integer}.
 }
 \examples{
 alt_pkgname(1:3)

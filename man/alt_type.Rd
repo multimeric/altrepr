@@ -2,10 +2,18 @@
 % Please edit documentation in R/RcppExports.R
 \name{alt_type}
 \alias{alt_type}
-\title{Gets the name of}
+\title{Gets the name of the type that this ALTREP is representing.}
 \usage{
 alt_type(x)
 }
+\value{
+The name of the fundamental vector type of that \code{x} is representing,
+as a \link{character} scalar. For example "integer" or "character".
+}
 \description{
-Gets the name of
+This will almost certainly return the same result as \code{typeof(x)}, but
+please let the author of this package know if it doesn't!
+}
+\examples{
+alt_type(1:3)
 }
