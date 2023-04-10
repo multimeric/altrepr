@@ -125,6 +125,20 @@ set_alt_data2 <- function(x, value) {
     invisible(.Call('_altrepr_set_alt_data2', PACKAGE = 'altrepr', x, value))
 }
 
+#' Touches the DATAPTR of a vector
+#'
+#' This is a utility function that accesses the `DATAPTR` of a vector, but
+#' doesn't touch it or do anything else. The `DATAPTR` is a pointer to the
+#' actual array data of the vector. This is useful because it often triggers
+#' certain behaviours in ALTREP vectors like expanding them into full form.
+#' @export
+alt_touch_dataptr <- function(x) {
+    invisible(.Call('_altrepr_alt_touch_dataptr', PACKAGE = 'altrepr', x))
+}
+
+#' @export
+NULL
+
 #' Checks for compact vector ALTREPs
 #' @export
 is_compact_vec <- function(x) {
@@ -157,8 +171,31 @@ compact_fields <- function(x) {
     .Call('_altrepr_compact_fields', PACKAGE = 'altrepr', x)
 }
 
+#' Checks for deferred string ALTREPs
 #' @export
-compact_to_standard <- function(x) {
-    .Call('_altrepr_compact_to_standard', PACKAGE = 'altrepr', x)
+is_deferred_string <- function(x) {
+    .Call('_altrepr_is_deferred_string', PACKAGE = 'altrepr', x)
+}
+
+#' Checks is a deferred string has been expanded
+#' @export
+deferred_is_expanded <- function(x) {
+    .Call('_altrepr_deferred_is_expanded', PACKAGE = 'altrepr', x)
+}
+
+#' Forces a deferred string into extended form
+#'
+#' @export
+#' @examples
+#' x = as.character(1:3)
+#' deferred_expand(x)
+#' alt_inspect(x)
+deferred_expand <- function(x) {
+    .Call('_altrepr_deferred_expand', PACKAGE = 'altrepr', x)
+}
+
+#' @export
+deferred_expand_elt <- function(x, i) {
+    .Call('_altrepr_deferred_expand_elt', PACKAGE = 'altrepr', x, i)
 }
 

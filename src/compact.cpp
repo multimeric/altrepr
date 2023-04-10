@@ -51,7 +51,7 @@ bool _compact_is_expanded(RObject x){
 // [[Rcpp::export]]
 RObject compact_expand(RObject x){
   _assert_compact(x);
-  DATAPTR(x);
+  alt_touch_dataptr(x);
   return x;
 }
 
@@ -74,7 +74,7 @@ IntegerVector compact_fields(RObject x){
 }
 
 //' @export
-// [[Rcpp::export]]
+// [[Rcpp::export]]`
 RObject compact_to_standard(RObject x){
   _assert_compact(x);
   return clone(x);

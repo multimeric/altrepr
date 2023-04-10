@@ -10,3 +10,4 @@ CharacterVector alt_type(RObject x);
 LogicalVector is_altrep(RObject x);
 RObject alt_data1(RObject x);
 RObject alt_data2(RObject x);
+RObject alt_touch_dataptr(RObject x);

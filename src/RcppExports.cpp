@@ -111,6 +111,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// alt_touch_dataptr
+RObject alt_touch_dataptr(RObject x);
+RcppExport SEXP _altrepr_alt_touch_dataptr(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(alt_touch_dataptr(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // is_compact_vec
 LogicalVector is_compact_vec(RObject x);
 RcppExport SEXP _altrepr_is_compact_vec(SEXP xSEXP) {
@@ -155,14 +166,48 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// compact_to_standard
-RObject compact_to_standard(RObject x);
-RcppExport SEXP _altrepr_compact_to_standard(SEXP xSEXP) {
+// is_deferred_string
+LogicalVector is_deferred_string(RObject x);
+RcppExport SEXP _altrepr_is_deferred_string(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(compact_to_standard(x));
+    rcpp_result_gen = Rcpp::wrap(is_deferred_string(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// deferred_is_expanded
+LogicalVector deferred_is_expanded(RObject x);
+RcppExport SEXP _altrepr_deferred_is_expanded(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(deferred_is_expanded(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// deferred_expand
+RObject deferred_expand(RObject x);
+RcppExport SEXP _altrepr_deferred_expand(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(deferred_expand(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// deferred_expand_elt
+RObject deferred_expand_elt(RObject x, NumericVector i);
+RcppExport SEXP _altrepr_deferred_expand_elt(SEXP xSEXP, SEXP iSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type i(iSEXP);
+    rcpp_result_gen = Rcpp::wrap(deferred_expand_elt(x, i));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -177,11 +222,15 @@ static const R_CallMethodDef CallEntries[] = {
     {"_altrepr_alt_data2", (DL_FUNC) &_altrepr_alt_data2, 1},
     {"_altrepr_set_alt_data1", (DL_FUNC) &_altrepr_set_alt_data1, 2},
     {"_altrepr_set_alt_data2", (DL_FUNC) &_altrepr_set_alt_data2, 2},
+    {"_altrepr_alt_touch_dataptr", (DL_FUNC) &_altrepr_alt_touch_dataptr, 1},
     {"_altrepr_is_compact_vec", (DL_FUNC) &_altrepr_is_compact_vec, 1},
     {"_altrepr_compact_expand", (DL_FUNC) &_altrepr_compact_expand, 1},
     {"_altrepr_compact_is_expanded", (DL_FUNC) &_altrepr_compact_is_expanded, 1},
     {"_altrepr_compact_fields", (DL_FUNC) &_altrepr_compact_fields, 1},
-    {"_altrepr_compact_to_standard", (DL_FUNC) &_altrepr_compact_to_standard, 1},
+    {"_altrepr_is_deferred_string", (DL_FUNC) &_altrepr_is_deferred_string, 1},
+    {"_altrepr_deferred_is_expanded", (DL_FUNC) &_altrepr_deferred_is_expanded, 1},
+    {"_altrepr_deferred_expand", (DL_FUNC) &_altrepr_deferred_expand, 1},
+    {"_altrepr_deferred_expand_elt", (DL_FUNC) &_altrepr_deferred_expand_elt, 2},
     {NULL, NULL, 0}
 };
 

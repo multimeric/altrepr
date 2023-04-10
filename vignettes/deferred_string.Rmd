@@ -1,0 +1,132 @@
+---
+title: "Deferred String"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{deferred_string}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Basics
+
+*Note: you should have read the [Compact Sequences](compact_seq.html) vignette in order to understand this one*
+
+Another built-in ALTREP class in R is the "Deferred String", a class that is instantiated when you convert a double, or an integer vector to a character vector:
+
+```{r}
+library(altrepr)
+x <- as.character(1)
+is_altrep(x)
+```
+```{r}
+alt_classname(x)
+```
+
+```{r}
+1L |> as.character() |> alt_classname()
+```
+
+Interestingly the same is not the case for logical conversions:
+
+```{r}
+TRUE |> as.character() |> is_altrep()
+```
+
+# Memory Saving
+
+The purpose of doing this deferred conversion is probably to save memory, 
+since in most cases it's smaller to store the original numeric vector as numeric, 
+and only convert entries to character on demand.
+
+```{r}
+x <- as.character(1:100)
+lobstr::obj_size(x)
+```
+As with compact sequences, we can convert the ALTREP to standard rep using `[]`:
+
+```{r}
+y <- x[]
+is_altrep(y)
+```
+```{r}
+lobstr::obj_size(y)
+```
+
+At 100 entries, the deferred ALTREP representation is actually a bit larger than the standard representation, but anything much larger is vastly more efficient:
+
+```{r}
+x <- as.character(1:1000)
+lobstr::obj_size(x)
+```
+```{r}
+x[] |> lobstr::obj_size()
+```
+
+# Data
+
+The first data slot for a deferred string is basically just a copy of the original numeric vector the deferring string was initialised using.
+Unfortunately for some reason (a bug?), we can't actually interrogate this vector directly, or it will crash the R interpreter.
+
+At best we can inspect the deferred string:
+
+```{r}
+x <- as.character(1:5)
+alt_inspect(x)
+```
+
+The top line is showing that `x` itself is a deferred string, and the second line
+indicates that it contains an integer vector (`INTSXP`) as explained above.
+
+`data2` is a bit easier to interrogate. 
+It's simply a character vector that caches the "true" result of the conversion as a character vector.
+
+```{r}
+alt_data2(x)
+```
+
+According to the C code, each entry of `data2` is set to `NULL` initially, 
+and each is "expanded" to their final value on-demand, as they are needed.
+However this is difficult to demonstrate because accessing single elements doesn't
+seem to actually expand them as we might expect.
+
+However, it's easy to see how changing the character vector in `data2` affects
+the calculated elements of the array:
+
+```{r}
+set_alt_data2(x, LETTERS[1:5])
+x
+```
+
+# Compact and Expanded
+
+Like compact sequences, deferred strings are considered to be either compact or expanded.
+We can expand the string and check its state using corresponding utility methods:
+
+```{r}
+x <- as.character(1:5)
+deferred_is_expanded(x)
+```
+
+```{r}
+deferred_expand(x)
+deferred_is_expanded(x)
+```
+
+However, unlike compact sequences, the amount of data in `data2` isn't the deciding factor in
+a sequence being expanded. It's actually the *absence* of data in `data1` that does it.
+
+```{r}
+x <- as.character(1:5)
+set_alt_data1(x, NULL)
+alt_inspect(x)
+```
+
+
+

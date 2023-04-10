@@ -159,3 +159,16 @@ RObject set_alt_data2(RObject x, RObject value){
   R_set_altrep_data2(x, value);
   return x;
 }
+
+//' Touches the DATAPTR of a vector
+//'
+//' This is a utility function that accesses the `DATAPTR` of a vector, but
+//' doesn't touch it or do anything else. The `DATAPTR` is a pointer to the
+//' actual array data of the vector. This is useful because it often triggers
+//' certain behaviours in ALTREP vectors like expanding them into full form.
+//' @export
+// [[Rcpp::export(invisible=true)]]
+RObject alt_touch_dataptr(RObject x){
+  DATAPTR(x);
+  return x;
+}
