@@ -1,6 +1,8 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+// These underscore functions are used internally but not exported
+
 bool _is_altrep(RObject x){
   return bool(ALTREP(x));
 }
@@ -113,10 +115,8 @@ LogicalVector is_altrep(RObject x){
 //' alt_data1(1:3)
 // [[Rcpp::export]]
 RObject alt_data1(RObject x){
-  if (_is_altrep(x)){
-    return R_altrep_data1(x);
-  }
-  stop("Not ALTREP!");
+  _assert_altrep(x);
+  return R_altrep_data1(x);
 }
 
 //' Gets the second altrep data slot.
@@ -126,8 +126,36 @@ RObject alt_data1(RObject x){
 //' alt_data2(1:3)
 // [[Rcpp::export]]
 RObject alt_data2(RObject x){
-  if (_is_altrep(x)){
-    return R_altrep_data2(x);
-  }
-  stop("Not ALTREP!");
+  _assert_altrep(x);
+  return R_altrep_data2(x);
+}
+
+//' Sets the `data1` value of an ALTREP
+//'
+//' **Don't use this function unless you know what you're doing**.
+//' If you set the data to some
+//' unexpected value you are very likely to cause a SEGFAULT and crash the
+//' entire R session. Also, this modifies the existing object in-place, meaning
+//' that all variables pointing to this same ALTREP will be modified.
+//' @param x An ALTREP object to modify
+//' @param value The new value of the `altrep_data1` slot
+//' @return `x`, invisibly (because `x` has been modified in-place you generally
+//'   won't want or need to store the return value)
+//' @export
+// [[Rcpp::export(invisible=true)]]
+RObject set_alt_data1(RObject x, RObject value){
+  _assert_altrep(x);
+  R_set_altrep_data1(x, value);
+  return x;
+}
+
+//' Sets the `data2` value of an ALTREP
+//' @inherit set_alt_data1
+//' @param value The new value of the `altrep_data2` slot
+//' @export
+// [[Rcpp::export(invisible=true)]]
+RObject set_alt_data2(RObject x, RObject value){
+  _assert_altrep(x);
+  R_set_altrep_data2(x, value);
+  return x;
 }

@@ -101,6 +101,30 @@ alt_data2 <- function(x) {
     .Call('_altrepr_alt_data2', PACKAGE = 'altrepr', x)
 }
 
+#' Sets the `data1` value of an ALTREP
+#'
+#' **Don't use this function unless you know what you're doing**.
+#' If you set the data to some
+#' unexpected value you are very likely to cause a SEGFAULT and crash the
+#' entire R session. Also, this modifies the existing object in-place, meaning
+#' that all variables pointing to this same ALTREP will be modified.
+#' @param x An ALTREP object to modify
+#' @param value The new value of the `altrep_data1` slot
+#' @return `x`, invisibly (because `x` has been modified in-place you generally
+#'   won't want or need to store the return value)
+#' @export
+set_alt_data1 <- function(x, value) {
+    invisible(.Call('_altrepr_set_alt_data1', PACKAGE = 'altrepr', x, value))
+}
+
+#' Sets the `data2` value of an ALTREP
+#' @inherit set_alt_data1
+#' @param value The new value of the `altrep_data2` slot
+#' @export
+set_alt_data2 <- function(x, value) {
+    invisible(.Call('_altrepr_set_alt_data2', PACKAGE = 'altrepr', x, value))
+}
+
 #' Checks for compact vector ALTREPs
 #' @export
 is_compact_vec <- function(x) {
@@ -131,5 +155,10 @@ compact_is_expanded <- function(x) {
 #' @export
 compact_fields <- function(x) {
     .Call('_altrepr_compact_fields', PACKAGE = 'altrepr', x)
+}
+
+#' @export
+compact_to_standard <- function(x) {
+    .Call('_altrepr_compact_to_standard', PACKAGE = 'altrepr', x)
 }
 

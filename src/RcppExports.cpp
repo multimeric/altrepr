@@ -87,6 +87,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// set_alt_data1
+RObject set_alt_data1(RObject x, RObject value);
+RcppExport SEXP _altrepr_set_alt_data1(SEXP xSEXP, SEXP valueSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    Rcpp::traits::input_parameter< RObject >::type value(valueSEXP);
+    rcpp_result_gen = Rcpp::wrap(set_alt_data1(x, value));
+    return rcpp_result_gen;
+END_RCPP
+}
+// set_alt_data2
+RObject set_alt_data2(RObject x, RObject value);
+RcppExport SEXP _altrepr_set_alt_data2(SEXP xSEXP, SEXP valueSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    Rcpp::traits::input_parameter< RObject >::type value(valueSEXP);
+    rcpp_result_gen = Rcpp::wrap(set_alt_data2(x, value));
+    return rcpp_result_gen;
+END_RCPP
+}
 // is_compact_vec
 LogicalVector is_compact_vec(RObject x);
 RcppExport SEXP _altrepr_is_compact_vec(SEXP xSEXP) {
@@ -131,6 +155,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// compact_to_standard
+RObject compact_to_standard(RObject x);
+RcppExport SEXP _altrepr_compact_to_standard(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(compact_to_standard(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_altrepr_alt_class", (DL_FUNC) &_altrepr_alt_class, 1},
@@ -140,10 +175,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_altrepr_is_altrep", (DL_FUNC) &_altrepr_is_altrep, 1},
     {"_altrepr_alt_data1", (DL_FUNC) &_altrepr_alt_data1, 1},
     {"_altrepr_alt_data2", (DL_FUNC) &_altrepr_alt_data2, 1},
+    {"_altrepr_set_alt_data1", (DL_FUNC) &_altrepr_set_alt_data1, 2},
+    {"_altrepr_set_alt_data2", (DL_FUNC) &_altrepr_set_alt_data2, 2},
     {"_altrepr_is_compact_vec", (DL_FUNC) &_altrepr_is_compact_vec, 1},
     {"_altrepr_compact_expand", (DL_FUNC) &_altrepr_compact_expand, 1},
     {"_altrepr_compact_is_expanded", (DL_FUNC) &_altrepr_compact_is_expanded, 1},
     {"_altrepr_compact_fields", (DL_FUNC) &_altrepr_compact_fields, 1},
+    {"_altrepr_compact_to_standard", (DL_FUNC) &_altrepr_compact_to_standard, 1},
     {NULL, NULL, 0}
 };
 

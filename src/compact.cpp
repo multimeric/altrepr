@@ -72,3 +72,11 @@ IntegerVector compact_fields(RObject x){
   data.names() = CharacterVector{"length", "start", "step"};
   return data;
 }
+
+//' @export
+// [[Rcpp::export]]
+RObject compact_to_standard(RObject x){
+  _assert_compact(x);
+  return clone(x);
+ }
+

@@ -71,11 +71,27 @@ is_compact_vec(1:3)
 is_compact_vec(c(1, 2))
 ```
 
+# Compact Real
+
+There is actually another related class to `compact_intseq`, which you can
+only get by converting an intseq to double:
+
+```{r}
+x <- as.double(1:5)
+alt_classname(x)
+```
+
+This has almost all of the same properties as `compact_intseq`, but of course
+it is treated as a `numeric`/`real`/`double` by R.
+
 # Coercing to a Standard Integer Vector
 
 The ALTREP API doesn't currently provide a function for forcing an ALTREP vector
 to be converted to it's standard representation form, but compact vectors can be
-expanded just using an empty index: `[]`.
+expanded using any operation that clones/duplicates the vector.
+
+The simplest way to copy a vector is to use an empty index on it (`[]`), although
+note that this won't copy attributes, only vector values.
 
 We can use this feature to prove the value of the compact sequence class, 
 by comparing the memory usage of a traditional integer vector, and the compact version:
@@ -111,7 +127,16 @@ lobstr::obj_size(y)
 There we go. It's no longer ALTREP, and we've worked out that we saved about 4 GB by 
 using ALTREP!
 
-# ALTREP Data
+For reference, `altrepr` also provides a utility function for this use case:
+```{r}
+y <- compact_to_standard(x)
+is_altrep(y)
+```
+```{r}
+lobstr::obj_size(y)
+```
+
+# Reading ALTREP Data
 
 ALTREP classes have two "slots" for storing data (not the same as S4 slots, but it's a helpful
 analogy). These are respectively called `data1` and `data2`.
@@ -121,7 +146,7 @@ recursive types like lists, so this isn't really a restriction.
 ## `data1`
 
 In the case of compact sequences, `data1` is used to store the parameters
-of the sequence as an integer vector
+of the sequence as a double (not integer!) vector
 
 * The first entry contains the length of the sequence
 * The second entry contains the start value of the sequence
@@ -192,3 +217,26 @@ But the `data2` value, which is linked to the expanded form, is now set to a ful
 ```{r}
 alt_data2(x)
 ```
+
+## Modifying ALTREP Data
+
+**Note: improperly modifying ALTREP data can be potentially very dangerous and will risk crashing or corrupting your R session if done incorrectly!**.
+
+`altrepr` also provides `set_alt_data1` and `set_alt_data2` for modifying the ALTREP data.
+As an example, let's create a compact range and then modify it. 
+This is safe because we're replacing a double vector with another double vector that 
+follows the same layout as described above.
+
+
+```{r}
+x <- 1:5
+set_alt_data1(x, c(2, 3, 1))
+x
+```
+
+Firstly note that we've taken the range `1:5` and replaced it with `3:4`, because
+we set the start of the range to be 3, and the length of it to be 2.
+
+Also, importantly, note that **`x` has been modified in-place**.
+As noted above, any copy of a compact sequence will no longer be ALTREP.
+This means that there's actually no way to make a modified copy of `x` as in normal R.
