@@ -1,0 +1,88 @@
+---
+title: "memmap"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{memmap}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+Memory mapping (memmap) refers to mapping a file on disk to an object in memory.
+Data is only loaded from disk as required, meaning that the entire object
+can be much larger than there is space for in memory.
+
+Apparently, R contains a family of memmap ALTREP classes that provide this behaviour.
+
+# Creating a Memory Map
+
+As far as I can tell, the only public interface for the memmap classes provided by R is
+another internal function.
+
+This has 5 possible arguments. The important ones are:
+
+1. The file to memory map, as a character scalar (required)
+2. The vector type to map it to, either "double" or "integer" (optional, defaults to "double")
+
+To test this, we first create a dataset to play with:
+
+```{r}
+data <- rnorm(n=5)
+head(data)
+```
+
+Then we write this dataset to a temporary file:
+
+```{r}
+filename <- tempfile()
+writeBin(data, filename)
+```
+
+Finally, we can access it again as a memory mapped vector **that exists on disk!**
+```{r}
+mapped <- .Internal(mmap_file(filename))
+mapped
+```
+
+
+# Prying into the Memory Map
+
+The classname is `mmap_` + data type, which in this case is `real`:
+
+```{r}
+library(altrepr)
+alt_classname(mapped)
+```
+
+The `data1` slot is a pointer to the memory map itself, in memory (although it's
+a kind of virtual pointer because the memory exists on disk):
+
+```{r}
+alt_data1(mapped)
+```
+
+The `data2` slot contains a list, whose entries are ^[https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/main/altclasses.c#L927-L949]:
+
+1. The name of the file we have memory mapped
+2. A length-2 vector:
+    1. The size of the memory map in bytes
+    2. The number of entries in the vector
+3. A length-4 vector:
+    1. The `SEXPTYPE` of the memory map (either 13 for integer, or 14 for double)
+    2. A boolean called `ptrOK`. Not sure what this does
+    3. A boolean, which is `1` if the memory map is requested to be writable
+    4. Another boolean called `serOK`. Not sure what this means either.
+
+```{r}
+alt_data2(mapped)
+```
+
+
