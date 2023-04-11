@@ -122,6 +122,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// alt_details
+List alt_details(RObject x);
+RcppExport SEXP _altrepr_alt_details(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(alt_details(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // is_compact_vec
 LogicalVector is_compact_vec(RObject x);
 RcppExport SEXP _altrepr_is_compact_vec(SEXP xSEXP) {
@@ -245,6 +256,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_altrepr_set_alt_data1", (DL_FUNC) &_altrepr_set_alt_data1, 2},
     {"_altrepr_set_alt_data2", (DL_FUNC) &_altrepr_set_alt_data2, 2},
     {"_altrepr_alt_touch_dataptr", (DL_FUNC) &_altrepr_alt_touch_dataptr, 1},
+    {"_altrepr_alt_details", (DL_FUNC) &_altrepr_alt_details, 1},
     {"_altrepr_is_compact_vec", (DL_FUNC) &_altrepr_is_compact_vec, 1},
     {"_altrepr_compact_expand", (DL_FUNC) &_altrepr_compact_expand, 1},
     {"_altrepr_compact_is_expanded", (DL_FUNC) &_altrepr_compact_is_expanded, 1},

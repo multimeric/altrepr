@@ -172,3 +172,16 @@ RObject alt_touch_dataptr(RObject x){
   DATAPTR(x);
   return x;
 }
+
+//' @export
+// [[Rcpp::export]]
+List alt_details(RObject x){
+  _assert_altrep(x);
+  return List::create(
+    Named("class_name") = alt_classname(x),
+    Named("pkg_name") = alt_pkgname(x),
+    Named("base_type") = alt_type(x),
+    Named("data1") = alt_data1(x),
+    Named("data2") = alt_data2(x)
+  );
+}

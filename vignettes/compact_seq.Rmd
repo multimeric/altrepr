@@ -1,5 +1,5 @@
 ---
-title: "Compact Sequences"
+title: "Intro to ALTREP and Compact Sequences"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{compact_seq}
@@ -13,6 +13,45 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+# ALTREP
+
+ALTREP, short for alternate representation, is a mechanism where base R and 
+package authors can write alternative versions of some of R's base data types. 
+
+There are many possible reasons why it might be advantageous to do this:
+* Data could be represented more compactly (as discussed in this vignette)
+* Functions can reduce computation by returning lazy ALTREP results that only evaluate entries if they are needed (see [deferred_string.html])
+* Adding metadata to vectors that is invisible and un-editable by users (see [wrapper_objects.html])
+* Abstracting away the actual storage mechanism of a vector, which might not even exist in memory (see [memmap.html]) 
+
+At present, types that can be ALTREPped include:
+* Integer vectors
+* Double vectors
+* Logical vectors
+* String vectors
+* Complex vectors
+* Raw vectors
+* Lists
+Some more advanced data types such as environments current can't have ALTREPs.
+
+ALTREPs are stored using R's normal SEXP mechanism, but have some unique 
+properties:
+
+* The ALTREP struct holds three pointers:
+  * data1: another `SEXP`
+  * data2: another `SEXP`
+  * tag: pointing to a raw vector that describes the ALTREP class
+* The `ALTREP` flag is set to 1
+
+Currently some of the behaviours that can be overridden in ALTREP include:
+* How the length is calculated (as returned by `length()`)
+* How the data is converted to an array of data in C
+* How elements are extracted from a vector in R (using `[` or `[[`)
+* If the array is considered sorted
+* How the minimum or maximum values of a vector are calculated
+
+You might wonder why all of this couldn't be done with one of R's class systems,
+like S3 or S4, since they support overriding 
 
 # Background
 

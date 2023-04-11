@@ -137,6 +137,11 @@ alt_touch_dataptr <- function(x) {
 }
 
 #' @export
+alt_details <- function(x) {
+    .Call('_altrepr_alt_details', PACKAGE = 'altrepr', x)
+}
+
+#' @export
 NULL
 
 #' Checks for compact vector ALTREPs
