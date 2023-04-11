@@ -2,11 +2,11 @@
 wrapper_make <- function(x, has_na = FALSE, is_sorted = NA, descending = FALSE, na_first = FALSE){
   sorted_status <- if (is.na(is_sorted)){
     # UNKNOWN_SORTEDNESS
-     0
+    NA_integer_
   }
   else if (!is_sorted){
     # KNOWN_UNSORTED
-    NA_integer_
+    0
   }
   else {
     if (descending){
@@ -31,5 +31,6 @@ wrapper_make <- function(x, has_na = FALSE, is_sorted = NA, descending = FALSE, 
     }
   }
 
-  .Internal(wrap_meta(x, sorted_status, as.integer(has_na)))
+  # The third argument is "no_na", so is the inverse of "has_na"
+  .Internal(wrap_meta(x, sorted_status, as.integer(!has_na)))
 }

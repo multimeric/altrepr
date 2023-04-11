@@ -24,17 +24,17 @@ Wrapper objects have a description in the R source code ^[https://github.com/wch
 # Metadata
    
 Actually the metadata that's being referred to here is not something obvious
-like the `attributes()` of an object. It's simply a vector of flags that
+like the `attributes()` of an object. It's simply a vector of integers that
 describe a vector in some way ^[https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/main/altclasses.c#L1431-L1432]. Currently we have:
 
 1. Sortedness. Describes the sorted state of a vector ^[https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/include/Rinternals.h#L1144-L1164]. Can be:
-  * `SORTED_DECR_NA_1ST`: -2 (sorted in decreasing order, with `NA` values sorted first)
-  * `SORTED_DECR`: -1 (sorted in decreasing order)
-  * `UNKNOWN_SORTEDNESS`: 0
-  * `SORTED_INCR`: 1 (sorted in increasing order)
-  * `SORTED_INCR_NA_1ST`: 2
-  * `KNOWN_UNSORTED`: `NA_integer_`
-2. `NA` contents. `0` if a vector contains `NA` values, otherwise `1`.
+    * `SORTED_DECR_NA_1ST`: -2 (sorted in decreasing order, with `NA` values sorted first)
+    * `SORTED_DECR`: -1 (sorted in decreasing order)
+    * `KNOWN_UNSORTED`: 0
+    * `SORTED_INCR`: 1 (sorted in increasing order)
+    * `SORTED_INCR_NA_1ST`: 2
+    * `UNKNOWN_SORTEDNESS`: `NA_integer_`
+2. No `NA`. `0` if a vector contains `NA` values, otherwise `1`.
 
 The public API in C for this are functions such as `INTEGER_NO_NA`, `INTEGER_IS_SORTED` etc ^[https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/include/Rinternals.h#L295-L303].
 
@@ -96,14 +96,14 @@ wrapper objects:
 This let's us blatantly lie to R about our vectors!
 
 ```{r}
-wrapper <- wrapper_make(c(5, 3, NA, 1), has_na = FALSE, is_sorted = TRUE, descending = FALSE, na_first = TRUE)
+wrapper <- wrapper_make(c(5, 3, NA, 1), is_sorted = TRUE, has_na = FALSE)
 wrapper
 ```
 ```{r}
 wrapper_details(wrapper)
 ```
 
-This fools the internal R functions as well:
+This fools the public R functions as well:
 
 ```{r}
 is.unsorted(wrapper)
@@ -116,7 +116,7 @@ There's also an internal R function you can use (at your own risk) called `wrap_
 This isn't documented, but it takes 3 arguments:
 
 1. The R object to wrap
-2. An integer indicating the sortedness, which can be -2, -1, 0, 1, 2 or `NA`
+2. An integer indicating the sortedness (see above for the sortedness enum values)
 3. An integer indicating whether it contains `NA`. `1` if it does, otherwise `0`.
 
 ```{r}
@@ -128,31 +128,6 @@ wrap_meta(10:1, 1, 0) |>
   .Internal() |>
   is.unsorted()
 ```
-
-
-
-Using the `wrap_meta` trick we learned above, we can fool the `is.unsorted` function.
-`1` in the second parameter means `SORTED_INCR` (see above):
-
-```{r}
-wrap_meta(10:1, 1, 0) |> 
-  .Internal() |>
-  is.unsorted()
-```
-
-
-Of course, we can fool this too, using the third/last argument to `wrap_meta`:
-
-```{r}
-x <- c(1, 2, NA, 3) |>
-  wrap_meta(1, 1) |> 
-  .Internal()
-x
-```
-```{r}
-anyNA(x)
-```
-
 
 ## Wrapper Data
 
@@ -169,5 +144,3 @@ alt_data2(x)
 ```
 
 Remember that 1 1 means "sorted in increasing order" and "no NA values".
-
-

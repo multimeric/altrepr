@@ -27,31 +27,31 @@ List wrapper_details(RObject x){
 
   switch(data2[0]){
     case SORTED_DECR_NA_1ST: {
-      is_sorted = true;
-      descending = true;
-      na_first = true;
+      is_sorted = LogicalVector{true};
+      descending = LogicalVector{true};
+      na_first = LogicalVector{true};
       break;
     }
     case SORTED_DECR: {
-      is_sorted = true;
-      descending = true;
-      na_first = false;
+      is_sorted = LogicalVector{true};
+      descending = LogicalVector{true};
+      na_first = LogicalVector{false};
       break;
     }
     case SORTED_INCR_NA_1ST: {
-      is_sorted = true;
-      descending = false;
-      na_first = true;
+      is_sorted = LogicalVector{true};
+      descending = LogicalVector{false};
+      na_first = LogicalVector{true};
       break;
     }
     case SORTED_INCR: {
-      is_sorted = true;
-      descending = false;
-      na_first = false;
+      is_sorted = LogicalVector{true};
+      descending = LogicalVector{false};
+      na_first = LogicalVector{false};
       break;
     }
     case KNOWN_UNSORTED: {
-      is_sorted = false;
+      is_sorted = LogicalVector{false};
       descending = R_NilValue;
       na_first = R_NilValue;
       break;
@@ -66,7 +66,7 @@ List wrapper_details(RObject x){
 
   return List::create(
     Named("contents") = alt_data1(x),
-    Named("has_na") = LogicalVector{(bool(data2[1]))},
+    Named("has_na") = LogicalVector{!bool(data2[1])},
     Named("is_sorted") = is_sorted,
     Named("descending") = descending,
     Named("na_first") = na_first
