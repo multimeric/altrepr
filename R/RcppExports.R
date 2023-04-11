@@ -199,3 +199,13 @@ deferred_expand_elt <- function(x, i) {
     .Call('_altrepr_deferred_expand_elt', PACKAGE = 'altrepr', x, i)
 }
 
+#' @export
+mmap_details <- function(x) {
+    .Call('_altrepr_mmap_details', PACKAGE = 'altrepr', x)
+}
+
+#' @export
+wrapper_details <- function(x) {
+    .Call('_altrepr_wrapper_details', PACKAGE = 'altrepr', x)
+}
+

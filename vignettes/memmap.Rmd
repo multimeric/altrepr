@@ -85,4 +85,8 @@ The `data2` slot contains a list, whose entries are ^[https://github.com/wch/r-s
 alt_data2(mapped)
 ```
 
+As usual, `altrepr` provides a utility function for more easily accessing these fields:
 
+```{r}
+mmap_details(mapped)
+```
