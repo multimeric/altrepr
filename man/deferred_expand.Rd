@@ -6,6 +6,12 @@
 \usage{
 deferred_expand(x)
 }
+\arguments{
+\item{x}{Character vector with the \code{deferred_string} ALTREP class}
+}
+\value{
+\code{x}, not a copy of \code{x}, after expansion.
+}
 \description{
 Forces a deferred string into extended form
 }

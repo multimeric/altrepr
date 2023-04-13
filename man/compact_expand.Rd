@@ -6,12 +6,20 @@
 \usage{
 compact_expand(x)
 }
+\arguments{
+\item{x}{An ALTREP vector of class \code{compact_realseq} or \code{compact_intseq}}
+}
+\value{
+\code{x}, \strong{not a copy of \code{x}}
+}
 \description{
 This will allocate the entire vector as a standard representation vector,
 and store it in the \code{data2} slot.
+Note: this modifies \code{x} in-place, so will modify any copies of \code{x}, and
+is irreversible.
 }
 \examples{
 x = 1:3
 compact_expand(x)
-alt_inspect(x)
+compact_details(x)
 }

@@ -6,6 +6,9 @@
 \usage{
 alt_data1(x)
 }
+\arguments{
+\item{x}{An ALTREP object of any class}
+}
 \value{
 Possibly any R object, including \code{NULL}
 }
@@ -18,7 +21,8 @@ how it wants to represent data.
 Although the exact meaning of each slot is flexible, a \emph{convention} used in
 R core is
 for \code{data1} to hold the "compressed" state of a type, and for \code{data2} to
-hold the "expanded" state. See the \code{compact_seq} vignette for more information
+hold the "expanded" state. See the \code{compact_seq} vignette for more
+information.
 }
 \examples{
 alt_data1(1:3)

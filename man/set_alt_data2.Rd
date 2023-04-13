@@ -16,7 +16,8 @@ set_alt_data2(x, value)
 won't want or need to store the return value)
 }
 \description{
-\strong{Don't use this function unless you know what you're doing}.
+\strong{Don't use this function unless you know what you're doing} or just
+don't care about your R session.
 If you set the data to some
 unexpected value you are very likely to cause a SEGFAULT and crash the
 entire R session. Also, this modifies the existing object in-place, meaning

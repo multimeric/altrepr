@@ -2,10 +2,17 @@
 % Please edit documentation in R/RcppExports.R
 \name{is_compact_vec}
 \alias{is_compact_vec}
-\title{Checks for compact vector ALTREPs}
+\title{Checks for compact sequence ALTREPs}
 \usage{
 is_compact_vec(x)
 }
+\arguments{
+\item{x}{Any R object}
+}
+\value{
+A scalar logical. \code{TRUE} if \code{x} is a compact sequence, otherwise
+\code{FALSE}
+}
 \description{
-Checks for compact vector ALTREPs
+Checks for compact sequence ALTREPs
 }

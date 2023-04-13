@@ -6,12 +6,17 @@
 \usage{
 is_altrep(x)
 }
+\arguments{
+\item{x}{Any R object}
+}
 \value{
 A scalar logical
 }
 \description{
 This checks if \code{x} is an instance of an ALTREP class. Notably it doesn't
-check if \code{x} \strong{is} an ALTREP class, which is more difficult to achieve.
+check if \code{x} \strong{is} an ALTREP class
+(ie the return value from \code{\link[=alt_class]{alt_class()}}), which is more difficult to
+achieve.
 }
 \examples{
 is_altrep(1)

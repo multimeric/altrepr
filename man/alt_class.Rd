@@ -6,23 +6,26 @@
 \usage{
 alt_class(x)
 }
+\arguments{
+\item{x}{An ALTREP object of any class}
+}
 \value{
-A raw vector uniquely identifying the altrep class of \code{x}, or \code{NULL}
-if \code{x} is not an altrep object.
+A raw vector uniquely identifying the altrep class of \code{x}
 }
 \description{
 The altrep class is not the same as the name of the class. For that,
 you can use \code{\link[=alt_classname]{alt_classname()}}. The altrep class is a \link{raw} vector whose
 value uniquely distinguishes the class from other classes. You are unlikely
 to find much meaning in the actual vector values, but you might find it
-useful to check if two objects belong to the same class.The other
+useful to check if two objects belong to the same class. The other
 meaningful use of the class is to check its \code{\link[=attributes]{attributes()}}, but it is
-recommended that you instead use the three dedicated wrapper functions for
-these attributes: \code{\link[=alt_classname]{alt_classname()}}, \code{\link[=alt_pkgname]{alt_pkgname()}}, and \code{\link[=alt_type]{alt_type()}}.
+recommended that you instead use the dedicated wrapper functions for
+these attributes: \code{\link[=alt_classname]{alt_classname()}}, \code{\link[=alt_pkgname]{alt_pkgname()}}, and \code{\link[=alt_type]{alt_type()}}, or
+\code{\link[=alt_details]{alt_details()}}.
 }
 \examples{
 identical(alt_class(1:2), alt_class(2:3))
 }
 \seealso{
-\code{\link[=alt_classname]{alt_classname()}} \code{\link[=alt_pkgname]{alt_pkgname()}} \code{\link[=alt_type]{alt_type()}}
+\code{\link[=alt_classname]{alt_classname()}} \code{\link[=alt_pkgname]{alt_pkgname()}} \code{\link[=alt_type]{alt_type()}} \code{\link[=alt_details]{alt_details()}}
 }

@@ -6,13 +6,16 @@
 \usage{
 alt_type(x)
 }
+\arguments{
+\item{x}{An ALTREP object of any class}
+}
 \value{
 The name of the fundamental vector type of that \code{x} is representing,
 as a \link{character} scalar. For example "integer" or "character".
 }
 \description{
 This will almost certainly return the same result as \code{typeof(x)}, but
-please let the author of this package know if it doesn't!
+the author would be interested to know if it doesn't!
 }
 \examples{
 alt_type(1:3)

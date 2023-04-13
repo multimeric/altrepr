@@ -6,9 +6,11 @@
 \usage{
 alt_classname(x)
 }
+\arguments{
+\item{x}{An ALTREP object of any class}
+}
 \value{
-The class name as a \link{character}, or \code{NULL} if
-\code{x} is not an altrep object.
+The class name as a \link{character}
 }
 \description{
 This is a a human-readable name for the altrep class.

@@ -1,0 +1,85 @@
+---
+title: "ALTREP Anatomy"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{altrep_anatomy}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+*This vignette goes into slightly more detail than the other vignettes
+about memory representations and C code*.
+
+You might be surprised to discover that an `ALTREP` is actually stored using
+the same memory layout as an R pairlist, which is the same data structure used
+to store formal arguments:
+
+```{r}
+paste0 |>
+  formals() |>
+  mode()
+```
+
+R pairlists hold 3 pointers, (called the `CAR`, `CDR` and `TAG`)^[[Defn.h#L145-L149](https://github.com/wch/r-source/blob/7d5117ad947beed213d3d4538bfe36441478ebef/src/include/Defn.h#L145-L149)].
+ALTREPs re-use this structure to point to the three parts of an ALTREP^[[Rinlinedfuns.h#L386-L389](https://github.com/wch/r-source/blob/7d5117ad947beed213d3d4538bfe36441478ebef/src/include/Rinlinedfuns.h#L386-L389)]:
+
+  * `CAR` -> data1: internal data, as a `SEXPREC` (normal R object)
+  * `CDR` -> data2: more internal data (also a `SEXPREC`)
+  * `TAG` -> class: The ALTREP class, as a raw vector with attributes
+  
+In addition, ALTREPs are distinguished from other R structures via the `ALTREP`
+flag, which is set to 1^[[Defn.h#L221-L222](https://github.com/wch/r-source/blob/7d5117ad947beed213d3d4538bfe36441478ebef/src/include/Defn.h#L221-L222) and [Defn.h#L118](https://github.com/wch/r-source/blob/7d5117ad947beed213d3d4538bfe36441478ebef/src/include/Defn.h#L118)].
+  
+By now you are probably familiar with `alt_data1` and `alt_data2` for prying into those
+first two fields.
+But for the `TAG`, `altrepr` actually has another trick up its sleeve: `alt_class`.
+
+As mentioned, the ALTREP class, not to be confused with the ALTREP class *name*, 
+is a raw vector. 
+We can look at it, but it's not particularly interesting:
+
+```{r}
+library(altrepr)
+alt_class(1:3)
+```
+
+One potential utility of this is checking if two objects belong to the same
+class:
+
+```{r}
+identical(
+  alt_class(1:4),
+  alt_class(100:90)
+)
+```
+```{r}
+identical(
+  alt_class(1:4),
+  sort(5:1)
+)
+```
+
+R basically does the same thing here^[[altrep.c#L1160-L1163](https://github.com/wch/r-source/blob/7d5117ad947beed213d3d4538bfe36441478ebef/src/main/altrep.c#L1160-L1163)].
+
+Possibly more interesting is the *attributes* of the class, which is where we 
+get all the juicy details:
+```{r}
+1:5 |>
+  alt_class() |>
+  attributes()
+```
+
+Notice that this is the source for many of the fields returned by `alt_details`:
+
+```{r}
+alt_details(1:5)
+```
+
+

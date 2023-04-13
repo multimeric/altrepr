@@ -6,6 +6,17 @@
 \usage{
 is_deferred_string(x)
 }
+\arguments{
+\item{x}{Any R object}
+}
+\value{
+Logical scalar. \code{TRUE} if \code{x} is a deferred_string ALTREP,
+otherwise \code{FALSE}
+}
 \description{
 Checks for deferred string ALTREPs
+}
+\examples{
+is_deferred_string("hi")
+is_deferred_string(as.character(1))
 }

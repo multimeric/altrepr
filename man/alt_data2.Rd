@@ -6,6 +6,9 @@
 \usage{
 alt_data2(x)
 }
+\arguments{
+\item{x}{An ALTREP object of any class}
+}
 \value{
 Possibly any R object, including \code{NULL}
 }
@@ -13,6 +16,10 @@ Possibly any R object, including \code{NULL}
 ALTREP objects have two data slots, both of which can hold any R type.
 The exact meaning of each slot can depend entirely on the ALTREP class and
 how it wants to represent data.
+}
+\note{
+\strong{Warning}: storing the result will cause an R session crash with a
+\code{deferred_string} ALTREP object.
 }
 \examples{
 alt_data2(1:3)

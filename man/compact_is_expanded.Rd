@@ -6,6 +6,9 @@
 \usage{
 compact_is_expanded(x)
 }
+\arguments{
+\item{x}{An ALTREP vector of class \code{compact_realseq} or \code{compact_intseq}}
+}
 \value{
 A logical scalar. \code{TRUE} if the vector is expanded, \code{FALSE} if it
 is compact

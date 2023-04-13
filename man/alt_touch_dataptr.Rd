@@ -6,6 +6,12 @@
 \usage{
 alt_touch_dataptr(x)
 }
+\arguments{
+\item{x}{Any R object}
+}
+\value{
+\code{x}, invisibly, unchanged.
+}
 \description{
 This is a utility function that accesses the \code{DATAPTR} of a vector, but
 doesn't touch it or do anything else. The \code{DATAPTR} is a pointer to the

@@ -7,14 +7,15 @@
 #' you can use [alt_classname()]. The altrep class is a [raw] vector whose
 #' value uniquely distinguishes the class from other classes. You are unlikely
 #' to find much meaning in the actual vector values, but you might find it
-#' useful to check if two objects belong to the same class.The other
+#' useful to check if two objects belong to the same class. The other
 #' meaningful use of the class is to check its [attributes()], but it is
-#' recommended that you instead use the three dedicated wrapper functions for
-#' these attributes: [alt_classname()], [alt_pkgname()], and [alt_type()].
+#' recommended that you instead use the dedicated wrapper functions for
+#' these attributes: [alt_classname()], [alt_pkgname()], and [alt_type()], or
+#' [alt_details()].
 #' @export
-#' @return A raw vector uniquely identifying the altrep class of `x`, or `NULL`
-#'   if `x` is not an altrep object.
-#' @seealso [alt_classname()] [alt_pkgname()] [alt_type()]
+#' @param x An ALTREP object of any class
+#' @return A raw vector uniquely identifying the altrep class of `x`
+#' @seealso [alt_classname()] [alt_pkgname()] [alt_type()] [alt_details()]
 #' @examples
 #' identical(alt_class(1:2), alt_class(2:3))
 alt_class <- function(x) {
@@ -25,8 +26,8 @@ alt_class <- function(x) {
 #'
 #' This is a a human-readable name for the altrep class.
 #' @export
-#' @return The class name as a [character], or `NULL` if
-#'   `x` is not an altrep object.
+#' @inheritParams alt_class
+#' @return The class name as a [character]
 #' @examples
 #' alt_classname(1:3)
 alt_classname <- function(x) {
@@ -40,6 +41,7 @@ alt_classname <- function(x) {
 #' was defined, which is likely to be one of the core vector types like
 #' `integer`.
 #' @export
+#' @inheritParams alt_class
 #' @return The package name as a [character], or `NULL` if `x` is not an altrep
 #'   object.
 #' @examples
@@ -51,8 +53,9 @@ alt_pkgname <- function(x) {
 #' Gets the name of the type that this ALTREP is representing.
 #'
 #' This will almost certainly return the same result as `typeof(x)`, but
-#' please let the author of this package know if it doesn't!
+#' the author would be interested to know if it doesn't!
 #' @export
+#' @inheritParams alt_class
 #' @return The name of the fundamental vector type of that `x` is representing,
 #' as a [character] scalar. For example "integer" or "character".
 #' @examples
@@ -64,7 +67,10 @@ alt_type <- function(x) {
 #' Checks if an R object is ALTREP
 #'
 #' This checks if `x` is an instance of an ALTREP class. Notably it doesn't
-#' check if `x` **is** an ALTREP class, which is more difficult to achieve.
+#' check if `x` **is** an ALTREP class
+#' (ie the return value from [alt_class()]), which is more difficult to
+#' achieve.
+#' @param x Any R object
 #' @export
 #' @return A scalar logical
 #' @examples
@@ -83,7 +89,9 @@ is_altrep <- function(x) {
 #' Although the exact meaning of each slot is flexible, a *convention* used in
 #' R core is
 #' for `data1` to hold the "compressed" state of a type, and for `data2` to
-#' hold the "expanded" state. See the `compact_seq` vignette for more information
+#' hold the "expanded" state. See the `compact_seq` vignette for more
+#' information.
+#' @inheritParams alt_class
 #' @export
 #' @return Possibly any R object, including `NULL`
 #' @examples
@@ -94,7 +102,10 @@ alt_data1 <- function(x) {
 
 #' Gets the second altrep data slot.
 #' @export
+#' @inheritParams alt_class
 #' @inherit alt_data1 description return
+#' @note **Warning**: storing the result will cause an R session crash with a
+#' `deferred_string` ALTREP object.
 #' @examples
 #' alt_data2(1:3)
 alt_data2 <- function(x) {
@@ -103,7 +114,8 @@ alt_data2 <- function(x) {
 
 #' Sets the `data1` value of an ALTREP
 #'
-#' **Don't use this function unless you know what you're doing**.
+#' **Don't use this function unless you know what you're doing** or just
+#' don't care about your R session.
 #' If you set the data to some
 #' unexpected value you are very likely to cause a SEGFAULT and crash the
 #' entire R session. Also, this modifies the existing object in-place, meaning
@@ -131,20 +143,33 @@ set_alt_data2 <- function(x, value) {
 #' doesn't touch it or do anything else. The `DATAPTR` is a pointer to the
 #' actual array data of the vector. This is useful because it often triggers
 #' certain behaviours in ALTREP vectors like expanding them into full form.
+#' @param x Any R object
+#' @return `x`, invisibly, unchanged.
 #' @export
 alt_touch_dataptr <- function(x) {
     invisible(.Call('_altrepr_alt_touch_dataptr', PACKAGE = 'altrepr', x))
 }
 
+#' Returns a summary of the properties of an ALTREP object
+#' @inherit alt_data2 note
+#' @inheritParams alt_class
+#' @return A list with the following entries:
+#'   * `class_name` (character scalar): see [alt_classname()]
+#'   * `pkg_name` (character scalar): see [alt_classname()]
+#'   * `base_type` (character scalar): see [alt_type()]
+#'   * `data1` (anything): see [alt_data1()]
+#'   * `data2` (anything): see [alt_data2()]
 #' @export
+#' @examples
+#' alt_details(1:4)
 alt_details <- function(x) {
     .Call('_altrepr_alt_details', PACKAGE = 'altrepr', x)
 }
 
-#' @export
-NULL
-
-#' Checks for compact vector ALTREPs
+#' Checks for compact sequence ALTREPs
+#' @param x Any R object
+#' @return A scalar logical. `TRUE` if `x` is a compact sequence, otherwise
+#'  `FALSE`
 #' @export
 is_compact_vec <- function(x) {
     .Call('_altrepr_is_compact_vec', PACKAGE = 'altrepr', x)
@@ -154,16 +179,21 @@ is_compact_vec <- function(x) {
 #'
 #' This will allocate the entire vector as a standard representation vector,
 #' and store it in the `data2` slot.
+#' Note: this modifies `x` in-place, so will modify any copies of `x`, and
+#' is irreversible.
+#' @return `x`, **not a copy of `x`**
+#' @param x An ALTREP vector of class `compact_realseq` or `compact_intseq`
 #' @export
 #' @examples
 #' x = 1:3
 #' compact_expand(x)
-#' alt_inspect(x)
+#' compact_details(x)
 compact_expand <- function(x) {
     .Call('_altrepr_compact_expand', PACKAGE = 'altrepr', x)
 }
 
 #' Checks if a compact vector has been expanded
+#' @inheritParams compact_expand
 #' @return A logical scalar. `TRUE` if the vector is expanded, `FALSE` if it
 #'   is compact
 #' @export
@@ -171,26 +201,59 @@ compact_is_expanded <- function(x) {
     .Call('_altrepr_compact_is_expanded', PACKAGE = 'altrepr', x)
 }
 
+#' Returns a list containing the fields of a compact vector
+#' @inheritParams compact_expand
+#' @return A list with the elements:
+#'   * `length` (integer scalar): the length of the sequence
+#'   * `start` (integer scalar): the first value of the sequence
+#'   * `step` (integer scalar) : the increment between entries in the sequence
+#'   * `expanded` (double, integer vector, or `NULL`): a non-ALTREP version of
+#'      `x`, or `NULL` if it hasn't been expanded
 #' @export
-compact_fields <- function(x) {
-    .Call('_altrepr_compact_fields', PACKAGE = 'altrepr', x)
+compact_details <- function(x) {
+    .Call('_altrepr_compact_details', PACKAGE = 'altrepr', x)
+}
+
+#' Returns a non-ALTREP copy of a compact vector
+#' @inheritParams compact_expand
+#' @export
+#' @examples
+#' compact_to_standard(1:5)
+compact_to_standard <- function(x) {
+    .Call('_altrepr_compact_to_standard', PACKAGE = 'altrepr', x)
 }
 
 #' Checks for deferred string ALTREPs
+#' @return Logical scalar. `TRUE` if `x` is a deferred_string ALTREP,
+#'   otherwise `FALSE`
+#' @inheritParams is_altrep
 #' @export
+#' @examples
+#' is_deferred_string("hi")
+#' is_deferred_string(as.character(1))
 is_deferred_string <- function(x) {
     .Call('_altrepr_is_deferred_string', PACKAGE = 'altrepr', x)
 }
 
 #' Checks is a deferred string has been expanded
+#'
+#' See [deferred_expand()] to force a deferred string to expand.
+#' @param x Character vector with the `deferred_string` ALTREP class
+#' @return Logical scalar. `TRUE` if `x` has been expanded, otherwise `FALSE`.
 #' @export
+#' @examples
+#' x <- as.character(1)
+#' deferred_is_expanded(x)
+#' deferred_expand(x)
+#' deferred_is_expanded(x)
 deferred_is_expanded <- function(x) {
     .Call('_altrepr_deferred_is_expanded', PACKAGE = 'altrepr', x)
 }
 
 #' Forces a deferred string into extended form
-#'
 #' @export
+#' @inheritParams deferred_is_expanded
+#' @return `x`, not a copy of `x`, after expansion.
 #' @examples
 #' x = as.character(1:3)
 #' deferred_expand(x)
@@ -200,16 +263,39 @@ deferred_expand <- function(x) {
 }
 
 #' @export
-deferred_expand_elt <- function(x, i) {
-    .Call('_altrepr_deferred_expand_elt', PACKAGE = 'altrepr', x, i)
-}
-
-#' @export
 mmap_details <- function(x) {
     .Call('_altrepr_mmap_details', PACKAGE = 'altrepr', x)
 }
 
+#' Checks for wrapper object ALTREPs
+#' @return Logical scalar. `TRUE` if `x` is a wrapper ALTREP,
+#'   otherwise `FALSE`
+#' @inheritParams is_altrep
 #' @export
+#' @examples
+#' is_wrapper("5:1")
+#' sort(5:1) |> is_wrapper()
+is_wrapper <- function(x) {
+    .Call('_altrepr_is_wrapper', PACKAGE = 'altrepr', x)
+}
+
+#' Returns a list containing the fields of a wrapper object
+#' @param x Any R object belonging with a `wrap` ALTREP class
+#' @return A list with the following entries:
+#'   * `contents`: Any R object. The underlying object being wrapped
+#'   * has_na`: Logical scalar. `TRUE` if `contents` **might** contain
+#'     `NA`, or `FALSE` if it **definitely doesn't**.
+#'   * `is_sorted`: Logical scalar. `TRUE` if `contents` is sorted in any
+#'     order
+#'   * `descending`: Logical scalar. `TRUE` if `contents` is sorted in
+#'     descending order, `FALSE` if it is sorted in ascending order, or
+#'     `NA` if it isn't sorted or its sorting status is unknown.
+#'   * `na_first` Logical scalar. `TRUE` if `contents` is sorted in an order
+#'     that puts `NA` values first, `FALSE` if it is sorted last, or `NA`
+#'     if `contents` is unsorted or its sorting status is unknown
+#' @export
+#' @examples
+#' sort(5:1) |> wrapper_details()
 wrapper_details <- function(x) {
     .Call('_altrepr_wrapper_details', PACKAGE = 'altrepr', x)
 }

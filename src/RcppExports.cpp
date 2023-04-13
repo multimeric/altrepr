@@ -166,14 +166,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// compact_fields
-IntegerVector compact_fields(RObject x);
-RcppExport SEXP _altrepr_compact_fields(SEXP xSEXP) {
+// compact_details
+List compact_details(RObject x);
+RcppExport SEXP _altrepr_compact_details(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(compact_fields(x));
+    rcpp_result_gen = Rcpp::wrap(compact_details(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// compact_to_standard
+RObject compact_to_standard(RObject x);
+RcppExport SEXP _altrepr_compact_to_standard(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(compact_to_standard(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -210,18 +221,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// deferred_expand_elt
-RObject deferred_expand_elt(RObject x, NumericVector i);
-RcppExport SEXP _altrepr_deferred_expand_elt(SEXP xSEXP, SEXP iSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type i(iSEXP);
-    rcpp_result_gen = Rcpp::wrap(deferred_expand_elt(x, i));
-    return rcpp_result_gen;
-END_RCPP
-}
 // mmap_details
 List mmap_details(RObject x);
 RcppExport SEXP _altrepr_mmap_details(SEXP xSEXP) {
@@ -230,6 +229,17 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(mmap_details(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// is_wrapper
+LogicalVector is_wrapper(RObject x);
+RcppExport SEXP _altrepr_is_wrapper(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(is_wrapper(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -260,12 +270,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_altrepr_is_compact_vec", (DL_FUNC) &_altrepr_is_compact_vec, 1},
     {"_altrepr_compact_expand", (DL_FUNC) &_altrepr_compact_expand, 1},
     {"_altrepr_compact_is_expanded", (DL_FUNC) &_altrepr_compact_is_expanded, 1},
-    {"_altrepr_compact_fields", (DL_FUNC) &_altrepr_compact_fields, 1},
+    {"_altrepr_compact_details", (DL_FUNC) &_altrepr_compact_details, 1},
+    {"_altrepr_compact_to_standard", (DL_FUNC) &_altrepr_compact_to_standard, 1},
     {"_altrepr_is_deferred_string", (DL_FUNC) &_altrepr_is_deferred_string, 1},
     {"_altrepr_deferred_is_expanded", (DL_FUNC) &_altrepr_deferred_is_expanded, 1},
     {"_altrepr_deferred_expand", (DL_FUNC) &_altrepr_deferred_expand, 1},
-    {"_altrepr_deferred_expand_elt", (DL_FUNC) &_altrepr_deferred_expand_elt, 2},
     {"_altrepr_mmap_details", (DL_FUNC) &_altrepr_mmap_details, 1},
+    {"_altrepr_is_wrapper", (DL_FUNC) &_altrepr_is_wrapper, 1},
     {"_altrepr_wrapper_details", (DL_FUNC) &_altrepr_wrapper_details, 1},
     {NULL, NULL, 0}
 };

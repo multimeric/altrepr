@@ -6,6 +6,18 @@
 \usage{
 deferred_is_expanded(x)
 }
+\arguments{
+\item{x}{Character vector with the \code{deferred_string} ALTREP class}
+}
+\value{
+Logical scalar. \code{TRUE} if \code{x} has been expanded, otherwise \code{FALSE}.
+}
 \description{
-Checks is a deferred string has been expanded
+See \code{\link[=deferred_expand]{deferred_expand()}} to force a deferred string to expand.
+}
+\examples{
+x <- as.character(1)
+deferred_is_expanded(x)
+deferred_expand(x)
+deferred_is_expanded(x)
 }

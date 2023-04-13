@@ -6,6 +6,9 @@
 \usage{
 alt_pkgname(x)
 }
+\arguments{
+\item{x}{An ALTREP object of any class}
+}
 \value{
 The package name as a \link{character}, or \code{NULL} if \code{x} is not an altrep
 object.
