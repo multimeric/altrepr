@@ -1,5 +1,5 @@
 #include <Rcpp.h>
-#include "altrep.hpp"
+#include "altrep.h"
 using namespace Rcpp;
 
 bool _is_wrapper(RObject x){
@@ -34,7 +34,7 @@ LogicalVector is_wrapper(RObject x){
 //' @param x Any R object belonging with a `wrap` ALTREP class
 //' @return A list with the following entries:
 //'   * `contents`: Any R object. The underlying object being wrapped
-//'   * has_na`: Logical scalar. `TRUE` if `contents` **might** contain
+//'   * `has_na`: Logical scalar. `TRUE` if `contents` **might** contain
 //'     `NA`, or `FALSE` if it **definitely doesn't**.
 //'   * `is_sorted`: Logical scalar. `TRUE` if `contents` is sorted in any
 //'     order

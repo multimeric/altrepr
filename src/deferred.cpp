@@ -1,5 +1,5 @@
 #include <Rcpp.h>
-#include "altrep.hpp"
+#include "altrep.h"
 using namespace Rcpp;
 
 bool _is_deferred_string(RObject x){
@@ -49,12 +49,12 @@ LogicalVector deferred_is_expanded(RObject x){
 //' Forces a deferred string into extended form
 //' @export
 //' @inheritParams deferred_is_expanded
-//' @return `x`, not a copy of `x`, after expansion.
+//' @return `x`, not a copy of `x`, invisibly
 //' @examples
-//' x = as.character(1:3)
+//' x <- as.character(1:3)
 //' deferred_expand(x)
 //' alt_inspect(x)
-// [[Rcpp::export]]
+// [[Rcpp::export(invisible=true)]]
 RObject deferred_expand(RObject x){
   _assert_deferred(x);
   alt_touch_dataptr(x);

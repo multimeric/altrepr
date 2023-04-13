@@ -1,8 +1,8 @@
 ---
-title: "memmap"
+title: "Memory Maps"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{memmap}
+  %\VignetteIndexEntry{Memory Maps}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 
 # Introduction
 
+*Note: you should have read `vignette("altrepr")` in order to understand this one*
+
 Memory mapping (memmap) refers to mapping a file on disk to an object in memory.
 Data is only loaded from disk as required, meaning that the entire object
 can be much larger than there is space for in memory.
@@ -24,41 +26,35 @@ Apparently, R contains a family of memmap ALTREP classes that provide this behav
 
 # Creating a Memory Map
 
-As far as I can tell, the only public interface for the memmap classes provided by R is
+Seemingly, the only interface for the memmap classes provided by R is
 another internal function.
+In other words, memmap classes have no public constructor in R yet.
 
-This has 5 possible arguments. The important ones are:
+That doesn't mean that `altrepr` doesn't help, though.
+The `mmap_make()` function attempts to turn this internal constructor into
+something a bit more user friendly.
 
-1. The file to memory map, as a character scalar (required)
-2. The vector type to map it to, either "double" or "integer" (optional, defaults to "double")
-
-To test this, we first create a dataset to play with:
+To test it, we first create a dataset to play with:
 
 ```{r}
 data <- rnorm(n=5)
-head(data)
+data
 ```
 
-Then we write this dataset to a temporary file:
+Then we write this dataset to a temporary file, and open it as a memory mapped vector **that exists on disk!**
 
 ```{r}
+library(altrepr)
 filename <- tempfile()
-writeBin(data, filename)
-```
-
-Finally, we can access it again as a memory mapped vector **that exists on disk!**
-```{r}
-mapped <- .Internal(mmap_file(filename))
+mapped <- mmap_make(filename, data)
 mapped
 ```
-
 
 # Prying into the Memory Map
 
 The classname is `mmap_` + data type, which in this case is `real`:
 
 ```{r}
-library(altrepr)
 alt_classname(mapped)
 ```
 
@@ -69,7 +65,7 @@ a kind of virtual pointer because the memory exists on disk):
 alt_data1(mapped)
 ```
 
-The `data2` slot contains a list, whose entries are ^[https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/main/altclasses.c#L927-L949]:
+The `data2` slot contains a list, whose entries are^[[altclasses.c#L927-L949](https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/main/altclasses.c#L927-L949)]:
 
 1. The name of the file we have memory mapped
 2. A length-2 vector:
@@ -77,9 +73,9 @@ The `data2` slot contains a list, whose entries are ^[https://github.com/wch/r-s
     2. The number of entries in the vector
 3. A length-4 vector:
     1. The `SEXPTYPE` of the memory map (either 13 for integer, or 14 for double)
-    2. A boolean called `ptrOK`. Not sure what this does
+    2. A boolean called `ptrOK`. It is unclear what this does or was planned to do.
     3. A boolean, which is `1` if the memory map is requested to be writable
-    4. Another boolean called `serOK`. Not sure what this means either.
+    4. Another boolean called `serOK`. Also unclear what this means.
 
 ```{r}
 alt_data2(mapped)

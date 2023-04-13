@@ -1,8 +1,8 @@
 ---
-title: "Wrapper Vectors"
+title: "Wrapper Objects"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Wrapper Vectors}
+  %\VignetteIndexEntry{Wrapper Objects}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,7 +16,9 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Wrapper objects have a description in the R source code ^[https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/main/altclasses.c#L1423-L1424]. Woo!
+*Note: you should have read `vignette("altrepr")` in order to understand this one*
+
+Wrapper objects have a (rare) description in the R source code^[[altclasses.c#L1423-L1424](https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/main/altclasses.c#L1423-L1424)]. Good start!
 
 > Wrapper objects are ALTREP objects designed to hold the attributes
    of a potentially large object and/or meta data for the object.
@@ -25,18 +27,18 @@ Wrapper objects have a description in the R source code ^[https://github.com/wch
    
 Actually the metadata that's being referred to here is not something obvious
 like the `attributes()` of an object. It's simply a vector of integers that
-describe a vector in some way ^[https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/main/altclasses.c#L1431-L1432]. Currently we have:
+describe a vector in some way^[[altclasses.c#L1431-L1432](https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/main/altclasses.c#L1431-L1432)]. Currently these include:
 
-1. Sortedness. Describes the sorted state of a vector ^[https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/include/Rinternals.h#L1144-L1164]. Can be:
+1. Sortedness. Describes the sorted state of a vector^[[Rinternals.h#L1144-L1164](https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/include/Rinternals.h#L1144-L1164)]. Can be:
     * `SORTED_DECR_NA_1ST`: -2 (sorted in decreasing order, with `NA` values sorted first)
     * `SORTED_DECR`: -1 (sorted in decreasing order)
     * `KNOWN_UNSORTED`: 0
     * `SORTED_INCR`: 1 (sorted in increasing order)
     * `SORTED_INCR_NA_1ST`: 2
     * `UNKNOWN_SORTEDNESS`: `NA_integer_`
-2. No `NA`. `0` if a vector contains `NA` values, otherwise `1`.
+2. No `NA`. `0` if a vector might possibly contain `NA` values, otherwise `1`.
 
-The public API in C for this are functions such as `INTEGER_NO_NA`, `INTEGER_IS_SORTED` etc ^[https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/include/Rinternals.h#L295-L303].
+The public API in C for this are functions such as `INTEGER_NO_NA`, `INTEGER_IS_SORTED` etc^[[Rinternals.h#L295-L303](https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/include/Rinternals.h#L295-L303)].
 
 # Wrapper Objects in the Wild
 
@@ -58,7 +60,7 @@ alt_classname(x)
 alt_pkgname(x)
 ```
 
-## Inspecting Wrapper Metadata in R
+# Inspecting Wrapper Metadata in R
 
 The main public interface to the sorted metadata is the `is.unsorted` function,
 which basically checks the metadata using mechanisms discussed above.
@@ -73,7 +75,7 @@ is.unsorted(5:1)
 5:1 |> sort() |> is.unsorted()
 ```
 
-The main public interface to the NA flag is the [anyNA()] function:
+The main public interface to the NA flag is the [anyNA()](NA) function:
 
 ```{r}
 c(1, 2, NA, 3) |> anyNA()
@@ -90,10 +92,10 @@ wrapper objects:
   sort() |>
   wrapper_details()
 ```
-## Creating Custom Wrapper Types
+# Creating Custom Wrapper Types
 
-`altrepr` provides a user-friendly function for creating these wrapper types, without needing `sort`.
-This let's us blatantly lie to R about our vectors!
+`altrepr` also provides a user-friendly function for creating these wrapper types, without needing `sort`.
+This lets us blatantly lie to R about our vectors!
 
 ```{r}
 wrapper <- wrapper_make(c(5, 3, NA, 1), is_sorted = TRUE, has_na = FALSE)
@@ -129,7 +131,7 @@ wrap_meta(10:1, 1, 0) |>
   is.unsorted()
 ```
 
-## Wrapper Data
+# Wrapper Data
 
 The data for these types is quite simple. 
 `data1` contains the wrapped object, and `data2` contains the metadata as

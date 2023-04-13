@@ -16,3 +16,9 @@ is compact
 \description{
 Checks if a compact vector has been expanded
 }
+\examples{
+x <- 1:3
+compact_is_expanded(x)
+compact_expand(x)
+compact_is_expanded(x)
+}

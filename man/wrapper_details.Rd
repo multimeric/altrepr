@@ -13,7 +13,8 @@ wrapper_details(x)
 A list with the following entries:
 \itemize{
 \item \code{contents}: Any R object. The underlying object being wrapped
-\item has_na\verb{: Logical scalar. }TRUE\code{if}contents\verb{**might** contain}NA\verb{, or }FALSE` if it \strong{definitely doesn't}.
+\item \code{has_na}: Logical scalar. \code{TRUE} if \code{contents} \strong{might} contain
+\code{NA}, or \code{FALSE} if it \strong{definitely doesn't}.
 \item \code{is_sorted}: Logical scalar. \code{TRUE} if \code{contents} is sorted in any
 order
 \item \code{descending}: Logical scalar. \code{TRUE} if \code{contents} is sorted in

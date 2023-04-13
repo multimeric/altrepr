@@ -22,3 +22,6 @@ A list with the elements:
 \description{
 Returns a list containing the fields of a compact vector
 }
+\examples{
+compact_details(1:5)
+}

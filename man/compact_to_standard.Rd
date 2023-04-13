@@ -13,5 +13,6 @@ compact_to_standard(x)
 Returns a non-ALTREP copy of a compact vector
 }
 \examples{
-compact_to_standard(1:5)
+x <- compact_to_standard(1:5)
+is_altrep(x)
 }

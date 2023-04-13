@@ -221,6 +221,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// is_mmap
+LogicalVector is_mmap(RObject x);
+RcppExport SEXP _altrepr_is_mmap(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(is_mmap(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // mmap_details
 List mmap_details(RObject x);
 RcppExport SEXP _altrepr_mmap_details(SEXP xSEXP) {
@@ -275,6 +286,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_altrepr_is_deferred_string", (DL_FUNC) &_altrepr_is_deferred_string, 1},
     {"_altrepr_deferred_is_expanded", (DL_FUNC) &_altrepr_deferred_is_expanded, 1},
     {"_altrepr_deferred_expand", (DL_FUNC) &_altrepr_deferred_expand, 1},
+    {"_altrepr_is_mmap", (DL_FUNC) &_altrepr_is_mmap, 1},
     {"_altrepr_mmap_details", (DL_FUNC) &_altrepr_mmap_details, 1},
     {"_altrepr_is_wrapper", (DL_FUNC) &_altrepr_is_wrapper, 1},
     {"_altrepr_wrapper_details", (DL_FUNC) &_altrepr_wrapper_details, 1},

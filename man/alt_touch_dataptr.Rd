@@ -18,3 +18,10 @@ doesn't touch it or do anything else. The \code{DATAPTR} is a pointer to the
 actual array data of the vector. This is useful because it often triggers
 certain behaviours in ALTREP vectors like expanding them into full form.
 }
+\examples{
+x <- 1:5
+compact_is_expanded(x)
+alt_touch_dataptr(x)
+compact_is_expanded(x)
+}
+\keyword{advanced}

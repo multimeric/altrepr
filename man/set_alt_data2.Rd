@@ -23,3 +23,9 @@ unexpected value you are very likely to cause a SEGFAULT and crash the
 entire R session. Also, this modifies the existing object in-place, meaning
 that all variables pointing to this same ALTREP will be modified.
 }
+\examples{
+x <- 1:5
+set_alt_data2(x, 10:15)
+x
+}
+\keyword{advanced}

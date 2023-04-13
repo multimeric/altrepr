@@ -10,13 +10,13 @@ deferred_expand(x)
 \item{x}{Character vector with the \code{deferred_string} ALTREP class}
 }
 \value{
-\code{x}, not a copy of \code{x}, after expansion.
+\code{x}, not a copy of \code{x}, invisibly
 }
 \description{
 Forces a deferred string into extended form
 }
 \examples{
-x = as.character(1:3)
+x <- as.character(1:3)
 deferred_expand(x)
 alt_inspect(x)
 }

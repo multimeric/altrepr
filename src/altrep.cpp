@@ -114,7 +114,7 @@ LogicalVector is_altrep(RObject x){
 //' Although the exact meaning of each slot is flexible, a *convention* used in
 //' R core is
 //' for `data1` to hold the "compressed" state of a type, and for `data2` to
-//' hold the "expanded" state. See the `compact_seq` vignette for more
+//' hold the "expanded" state. See the `vignette("altrepr")` for more
 //' information.
 //' @inheritParams alt_class
 //' @export
@@ -130,7 +130,7 @@ RObject alt_data1(RObject x){
 //' Gets the second altrep data slot.
 //' @export
 //' @inheritParams alt_class
-//' @inherit alt_data1 description return
+//' @inherit alt_data1 description return details
 //' @note **Warning**: storing the result will cause an R session crash with a
 //' `deferred_string` ALTREP object.
 //' @examples
@@ -153,7 +153,12 @@ RObject alt_data2(RObject x){
 //' @param value The new value of the `altrep_data1` slot
 //' @return `x`, invisibly (because `x` has been modified in-place you generally
 //'   won't want or need to store the return value)
+//' @keywords advanced
 //' @export
+//' @examples
+//' x <- 1:5
+//' set_alt_data1(x, c(10, 10, -1))
+//' x
 // [[Rcpp::export(invisible=true)]]
 RObject set_alt_data1(RObject x, RObject value){
   _assert_altrep(x);
@@ -165,6 +170,11 @@ RObject set_alt_data1(RObject x, RObject value){
 //' @inherit set_alt_data1
 //' @param value The new value of the `altrep_data2` slot
 //' @export
+//' @keywords advanced
+//' @examples
+//' x <- 1:5
+//' set_alt_data2(x, 10:15)
+//' x
 // [[Rcpp::export(invisible=true)]]
 RObject set_alt_data2(RObject x, RObject value){
   _assert_altrep(x);
@@ -181,6 +191,12 @@ RObject set_alt_data2(RObject x, RObject value){
 //' @param x Any R object
 //' @return `x`, invisibly, unchanged.
 //' @export
+//' @keywords advanced
+//' @examples
+//' x <- 1:5
+//' compact_is_expanded(x)
+//' alt_touch_dataptr(x)
+//' compact_is_expanded(x)
 // [[Rcpp::export(invisible=true)]]
 RObject alt_touch_dataptr(RObject x){
   DATAPTR(x);

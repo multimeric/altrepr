@@ -16,3 +16,6 @@ A scalar logical. \code{TRUE} if \code{x} is a compact sequence, otherwise
 \description{
 Checks for compact sequence ALTREPs
 }
+\examples{
+is_compact_vec(1:3)
+}

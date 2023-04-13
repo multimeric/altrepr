@@ -1,8 +1,8 @@
 ---
-title: "Deferred String"
+title: "Deferred Strings"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{deferred_string}
+  %\VignetteIndexEntry{Deferred Strings}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,9 +16,9 @@ knitr::opts_chunk$set(
 
 # Basics
 
-*Note: you should have read the [Compact Sequences](compact_seq.html) vignette in order to understand this one*
+*Note: you should have read `vignette("altrepr")` in order to understand this one*
 
-Another built-in ALTREP class in R is the "Deferred String", a class that is instantiated when you convert a double, or an integer vector to a character vector:
+Another built-in ALTREP class in R is the "Deferred String", a class that is instantiated when you convert a double to a character vector^[[coerce.c#L1290-L1298](https://github.com/wch/r-source/blob/7d5117ad947beed213d3d4538bfe36441478ebef/src/main/coerce.c#L1290-L1298)]:
 
 ```{r}
 library(altrepr)
@@ -28,6 +28,8 @@ is_altrep(x)
 ```{r}
 alt_classname(x)
 ```
+
+Or when you convert an integer vector to a character vector:
 
 ```{r}
 1L |> as.character() |> alt_classname()
@@ -46,7 +48,7 @@ since in most cases it's smaller to store the original numeric vector as numeric
 and only convert entries to character on demand.
 
 ```{r}
-x <- as.character(1:100)
+x <- as.character(1:10)
 lobstr::obj_size(x)
 ```
 As with compact sequences, we can convert the ALTREP to standard rep using `[]`:
@@ -59,7 +61,7 @@ is_altrep(y)
 lobstr::obj_size(y)
 ```
 
-At 100 entries, the deferred ALTREP representation is actually a bit larger than the standard representation, but anything much larger is vastly more efficient:
+At 10 entries, the deferred ALTREP representation is actually a bit larger than the standard representation, but anything much larger is vastly more efficient:
 
 ```{r}
 x <- as.character(1:1000)
@@ -71,7 +73,7 @@ x[] |> lobstr::obj_size()
 
 # Data
 
-The first data slot for a deferred string is basically just a copy of the original numeric vector the deferring string was initialised using.
+The first data slot for a deferred string is basically just a copy of the original numeric vector the deferring string was initialised using^[[altclasses.c#L890-L891](https://github.com/wch/r-source/blob/7d5117ad947beed213d3d4538bfe36441478ebef/src/main/altclasses.c#L890-L891)].
 Unfortunately for some reason (a bug?), we can't actually interrogate this vector directly, or it will crash the R interpreter.
 
 At best we can inspect the deferred string:
@@ -92,7 +94,7 @@ alt_data2(x)
 ```
 
 According to the C code, each entry of `data2` is set to `NULL` initially, 
-and each is "expanded" to their final value on-demand, as they are needed.
+and each is "expanded" to their final value on-demand, as they are needed^[[altclasses.c#L689-L695](https://github.com/wch/r-source/blob/7d5117ad947beed213d3d4538bfe36441478ebef/src/main/altclasses.c#L689-L695)].
 However this is difficult to demonstrate because accessing single elements doesn't
 seem to actually expand them as we might expect.
 

@@ -89,7 +89,7 @@ is_altrep <- function(x) {
 #' Although the exact meaning of each slot is flexible, a *convention* used in
 #' R core is
 #' for `data1` to hold the "compressed" state of a type, and for `data2` to
-#' hold the "expanded" state. See the `compact_seq` vignette for more
+#' hold the "expanded" state. See the `vignette("altrepr")` for more
 #' information.
 #' @inheritParams alt_class
 #' @export
@@ -103,7 +103,7 @@ alt_data1 <- function(x) {
 #' Gets the second altrep data slot.
 #' @export
 #' @inheritParams alt_class
-#' @inherit alt_data1 description return
+#' @inherit alt_data1 description return details
 #' @note **Warning**: storing the result will cause an R session crash with a
 #' `deferred_string` ALTREP object.
 #' @examples
@@ -124,7 +124,12 @@ alt_data2 <- function(x) {
 #' @param value The new value of the `altrep_data1` slot
 #' @return `x`, invisibly (because `x` has been modified in-place you generally
 #'   won't want or need to store the return value)
+#' @keywords advanced
 #' @export
+#' @examples
+#' x <- 1:5
+#' set_alt_data1(x, c(10, 10, -1))
+#' x
 set_alt_data1 <- function(x, value) {
     invisible(.Call('_altrepr_set_alt_data1', PACKAGE = 'altrepr', x, value))
 }
@@ -133,6 +138,11 @@ set_alt_data1 <- function(x, value) {
 #' @inherit set_alt_data1
 #' @param value The new value of the `altrep_data2` slot
 #' @export
+#' @keywords advanced
+#' @examples
+#' x <- 1:5
+#' set_alt_data2(x, 10:15)
+#' x
 set_alt_data2 <- function(x, value) {
     invisible(.Call('_altrepr_set_alt_data2', PACKAGE = 'altrepr', x, value))
 }
@@ -146,6 +156,12 @@ set_alt_data2 <- function(x, value) {
 #' @param x Any R object
 #' @return `x`, invisibly, unchanged.
 #' @export
+#' @keywords advanced
+#' @examples
+#' x <- 1:5
+#' compact_is_expanded(x)
+#' alt_touch_dataptr(x)
+#' compact_is_expanded(x)
 alt_touch_dataptr <- function(x) {
     invisible(.Call('_altrepr_alt_touch_dataptr', PACKAGE = 'altrepr', x))
 }
@@ -171,6 +187,8 @@ alt_details <- function(x) {
 #' @return A scalar logical. `TRUE` if `x` is a compact sequence, otherwise
 #'  `FALSE`
 #' @export
+#' @examples
+#' is_compact_vec(1:3)
 is_compact_vec <- function(x) {
     .Call('_altrepr_is_compact_vec', PACKAGE = 'altrepr', x)
 }
@@ -181,15 +199,16 @@ is_compact_vec <- function(x) {
 #' and store it in the `data2` slot.
 #' Note: this modifies `x` in-place, so will modify any copies of `x`, and
 #' is irreversible.
-#' @return `x`, **not a copy of `x`**
+#' @return `x`, **not a copy of `x`**, invisibly
 #' @param x An ALTREP vector of class `compact_realseq` or `compact_intseq`
 #' @export
 #' @examples
-#' x = 1:3
+#' x <- 1:3
+#' compact_is_expanded(x)
 #' compact_expand(x)
-#' compact_details(x)
+#' compact_is_expanded(x)
 compact_expand <- function(x) {
-    .Call('_altrepr_compact_expand', PACKAGE = 'altrepr', x)
+    invisible(.Call('_altrepr_compact_expand', PACKAGE = 'altrepr', x))
 }
 
 #' Checks if a compact vector has been expanded
@@ -197,6 +216,11 @@ compact_expand <- function(x) {
 #' @return A logical scalar. `TRUE` if the vector is expanded, `FALSE` if it
 #'   is compact
 #' @export
+#' @examples
+#' x <- 1:3
+#' compact_is_expanded(x)
+#' compact_expand(x)
+#' compact_is_expanded(x)
 compact_is_expanded <- function(x) {
     .Call('_altrepr_compact_is_expanded', PACKAGE = 'altrepr', x)
 }
@@ -210,6 +234,8 @@ compact_is_expanded <- function(x) {
 #'   * `expanded` (double, integer vector, or `NULL`): a non-ALTREP version of
 #'      `x`, or `NULL` if it hasn't been expanded
 #' @export
+#' @examples
+#' compact_details(1:5)
 compact_details <- function(x) {
     .Call('_altrepr_compact_details', PACKAGE = 'altrepr', x)
 }
@@ -218,7 +244,8 @@ compact_details <- function(x) {
 #' @inheritParams compact_expand
 #' @export
 #' @examples
-#' compact_to_standard(1:5)
+#' x <- compact_to_standard(1:5)
+#' is_altrep(x)
 compact_to_standard <- function(x) {
     .Call('_altrepr_compact_to_standard', PACKAGE = 'altrepr', x)
 }
@@ -253,16 +280,44 @@ deferred_is_expanded <- function(x) {
 #' Forces a deferred string into extended form
 #' @export
 #' @inheritParams deferred_is_expanded
-#' @return `x`, not a copy of `x`, after expansion.
+#' @return `x`, not a copy of `x`, invisibly
 #' @examples
-#' x = as.character(1:3)
+#' x <- as.character(1:3)
 #' deferred_expand(x)
 #' alt_inspect(x)
 deferred_expand <- function(x) {
-    .Call('_altrepr_deferred_expand', PACKAGE = 'altrepr', x)
+    invisible(.Call('_altrepr_deferred_expand', PACKAGE = 'altrepr', x))
 }
 
+#' Checks for memmap vector ALTREPs
+#' @param x Any R object
+#' @return A scalar logical. `TRUE` if `x` is a mmap vector, otherwise
+#'  `FALSE`
 #' @export
+#' @examples
+#' is_mmap(1)
+#' mmap_make(data = 1:100) |> is_mmap()
+is_mmap <- function(x) {
+    .Call('_altrepr_is_mmap', PACKAGE = 'altrepr', x)
+}
+
+#' Returns a list containing the fields of a memory mapped vector
+#' @param x A vector which has an mmap ALTREP class
+#' @return A list with the fields:
+#'   * `file_name`: A character scalar. The file name of that file that was
+#'     mapped
+#'   * `size_bytes`: An integer scalar. The number of bytes of the memory
+#'     map
+#'   * `length`: An integer scalar. The number of entries in the memory mapped
+#'     vector
+#'   * `type`: "double", or "integer", indicating the data type of the memory
+#'     map
+#'   * `ptrOK`: logical scalar. Unknown meaning
+#'   * `wrtOK`: logical scalar. `TRUE` if writing to the memory map is allowed
+#'   * `serOK`: logical scalar. Unknown meaning
+#' @export
+#' @examples
+#' mmap_make(data = 1:10) |> mmap_details()
 mmap_details <- function(x) {
     .Call('_altrepr_mmap_details', PACKAGE = 'altrepr', x)
 }
@@ -283,7 +338,7 @@ is_wrapper <- function(x) {
 #' @param x Any R object belonging with a `wrap` ALTREP class
 #' @return A list with the following entries:
 #'   * `contents`: Any R object. The underlying object being wrapped
-#'   * has_na`: Logical scalar. `TRUE` if `contents` **might** contain
+#'   * `has_na`: Logical scalar. `TRUE` if `contents` **might** contain
 #'     `NA`, or `FALSE` if it **definitely doesn't**.
 #'   * `is_sorted`: Logical scalar. `TRUE` if `contents` is sorted in any
 #'     order

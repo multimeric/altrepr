@@ -17,6 +17,13 @@ ALTREP objects have two data slots, both of which can hold any R type.
 The exact meaning of each slot can depend entirely on the ALTREP class and
 how it wants to represent data.
 }
+\details{
+Although the exact meaning of each slot is flexible, a \emph{convention} used in
+R core is
+for \code{data1} to hold the "compressed" state of a type, and for \code{data2} to
+hold the "expanded" state. See the \code{vignette("altrepr")} for more
+information.
+}
 \note{
 \strong{Warning}: storing the result will cause an R session crash with a
 \code{deferred_string} ALTREP object.

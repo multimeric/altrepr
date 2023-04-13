@@ -1,0 +1,29 @@
+url: ~
+template:
+  bootstrap: 5
+reference:
+- title: Common ALTREP Utilities
+- contents:
+  - is_altrep
+  - alt_details
+- title: General ALTREP Utilities
+- contents:
+  - contains("alt")
+  - -has_keyword("advanced")
+  - -is_altrep
+  - -alt_details
+- title: Compact Sequence Utilities
+- contents:
+  - contains("compact")
+- title: Deferred String Utilities
+- contents:
+  - contains("deferred")
+- title: Wrapper Object Utilities
+- contents:
+  - contains("wrapper")
+- title: Memmap Object Utilities
+- contents:
+  - contains("mmap")
+- title: Advanced/Dangerous Functions
+- contents:
+  - has_keyword("advanced")

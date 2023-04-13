@@ -2,7 +2,7 @@
 title: "ALTREP Anatomy"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{altrep_anatomy}
+  %\VignetteIndexEntry{ALTREP Anatomy}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -37,21 +37,21 @@ ALTREPs re-use this structure to point to the three parts of an ALTREP^[[Rinline
 In addition, ALTREPs are distinguished from other R structures via the `ALTREP`
 flag, which is set to 1^[[Defn.h#L221-L222](https://github.com/wch/r-source/blob/7d5117ad947beed213d3d4538bfe36441478ebef/src/include/Defn.h#L221-L222) and [Defn.h#L118](https://github.com/wch/r-source/blob/7d5117ad947beed213d3d4538bfe36441478ebef/src/include/Defn.h#L118)].
   
-By now you are probably familiar with `alt_data1` and `alt_data2` for prying into those
+By now you are probably familiar with `alt_data1()` and `alt_data2()` for prying into those
 first two fields.
-But for the `TAG`, `altrepr` actually has another trick up its sleeve: `alt_class`.
+But for the `TAG`, `altrepr` actually has another trick up its sleeve: `alt_class()`.
 
 As mentioned, the ALTREP class, not to be confused with the ALTREP class *name*, 
 is a raw vector. 
 We can look at it, but it's not particularly interesting:
 
-```{r}
+```{r, error=TRUE}
 library(altrepr)
 alt_class(1:3)
 ```
 
 One potential utility of this is checking if two objects belong to the same
-class:
+class (although R prefers to compare pointers rather than vector values for this kind of thing)^[[altrep.c#L1160-L1163](https://github.com/wch/r-source/blob/7d5117ad947beed213d3d4538bfe36441478ebef/src/main/altrep.c#L1160-L1163)].
 
 ```{r}
 identical(
@@ -65,8 +65,6 @@ identical(
   sort(5:1)
 )
 ```
-
-R basically does the same thing here^[[altrep.c#L1160-L1163](https://github.com/wch/r-source/blob/7d5117ad947beed213d3d4538bfe36441478ebef/src/main/altrep.c#L1160-L1163)].
 
 Possibly more interesting is the *attributes* of the class, which is where we 
 get all the juicy details:
