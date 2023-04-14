@@ -1,0 +1,11 @@
+pandoc: 2.19.2
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  altrep_anatomy: altrep_anatomy.html
+  altrepr: altrepr.html
+  deferred_string: deferred_string.html
+  memmap: memmap.html
+  wrapper_objects: wrapper_objects.html
+last_built: 2023-04-13T16:10Z
+
