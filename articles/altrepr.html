@@ -289,7 +289,7 @@ being generated behind the scenes:</p>
 <span>  <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="op">]</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    user  system elapsed </span></span>
-<span><span class="co">#&gt;   0.782   1.088   1.869</span></span></code></pre></div>
+<span><span class="co">#&gt;   0.874   1.154   2.028</span></span></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/is_altrep.html">is_altrep</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
@@ -367,7 +367,7 @@ types:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span>
 <span><span class="fu"><a href="../reference/alt_inspect.html">alt_inspect</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; @55e9271c4e00 13 INTSXP g0c0 [REF(65535)]  1 : 3 (compact)</span></span></code></pre></div>
+<span><span class="co">#&gt; @55bab0364ae0 13 INTSXP g0c0 [REF(65535)]  1 : 3 (compact)</span></span></code></pre></div>
 <p>“compact” means that <code>data2</code> is <code>NULL</code>, which
 is its initial value:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
@@ -386,7 +386,7 @@ effects:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compact_expand.html">compact_expand</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/alt_inspect.html">alt_inspect</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; @55e9271c4e00 13 INTSXP g0c0 [REF(65535)]  1 : 3 (expanded)</span></span></code></pre></div>
+<span><span class="co">#&gt; @55bab0364ae0 13 INTSXP g0c0 [REF(65535)]  1 : 3 (expanded)</span></span></code></pre></div>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compact_is_expanded.html">compact_is_expanded</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
@@ -422,9 +422,16 @@ the same layout as described above.</p>
 it with <code>3:4</code>, because we set the start of the range to be 3,
 and the length of it to be 2.</p>
 <p>Also, importantly, note that <strong><code>x</code> has been modified
-in-place</strong>. As noted above, any copy of a compact sequence will
-no longer be ALTREP. This means that there’s actually no way to make a
-modified copy of <code>x</code> as in normal R.</p>
+in-place</strong>. This means that any shallow copy of the compact
+sequence (e.g. <code>y &lt;- x</code> below) will also be modified. This
+means that there’s actually no way to make a modified copy of
+<code>x</code> as in normal R:</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span></span>
+<span><span class="fu"><a href="../reference/set_alt_data1.html">set_alt_data1</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">y</span></span>
+<span><span class="co">#&gt; [1] 3 4</span></span></code></pre></div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

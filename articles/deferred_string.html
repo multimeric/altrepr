@@ -141,8 +141,8 @@ this vector directly, or it will crash the R interpreter.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/alt_inspect.html">alt_inspect</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; @55bdc8afc8f8 16 STRSXP g0c0 [REF(3)]   &lt;deferred string conversion&gt;</span></span>
-<span><span class="co">#&gt;   @55bdc8afc9a0 13 INTSXP g0c0 [REF(65535)]  1 : 5 (compact)</span></span></code></pre></div>
+<span><span class="co">#&gt; @56498d7db638 16 STRSXP g0c0 [REF(3)]   &lt;deferred string conversion&gt;</span></span>
+<span><span class="co">#&gt;   @56498d7db6e0 13 INTSXP g0c0 [REF(65535)]  1 : 5 (compact)</span></span></code></pre></div>
 <p>The top line is showing that <code>x</code> itself is a deferred
 string, and the second line indicates that it contains an integer vector
 (<code>INTSXP</code>) as explained above.</p>
@@ -186,8 +186,8 @@ expanded. It’s actually the <em>absence</em> of data in
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/set_alt_data1.html">set_alt_data1</a></span><span class="op">(</span><span class="va">x</span>, <span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/alt_inspect.html">alt_inspect</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; @55bdc6f77210 16 STRSXP g0c0 [REF(4)]   &lt;expanded string conversion&gt;</span></span>
-<span><span class="co">#&gt;   @55bdc30cbe80 00 NILSXP g1c0 [MARK,REF(65535)]</span></span></code></pre></div>
+<span><span class="co">#&gt; @56498bc705a0 16 STRSXP g0c0 [REF(4)]   &lt;expanded string conversion&gt;</span></span>
+<span><span class="co">#&gt;   @564987daae80 00 NILSXP g1c0 [MARK,REF(65535)]</span></span></code></pre></div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
