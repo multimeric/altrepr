@@ -100,7 +100,7 @@ constructor into something a bit more user friendly.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="va">data</span></span>
-<span><span class="co">#&gt; [1]  1.748736776 -0.557734009 -0.684967966 -0.004448797  1.165927221</span></span></code></pre></div>
+<span><span class="co">#&gt; [1]  0.01389482 -0.83693403 -0.98008218 -0.85240931 -0.07387628</span></span></code></pre></div>
 <p>Then we write this dataset to a temporary file, and open it as a
 memory mapped vector <strong>that exists on disk!</strong></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -108,7 +108,7 @@ memory mapped vector <strong>that exists on disk!</strong></p>
 <span><span class="va">filename</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">mapped</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mmap_make.html">mmap_make</a></span><span class="op">(</span><span class="va">filename</span>, <span class="va">data</span><span class="op">)</span></span>
 <span><span class="va">mapped</span></span>
-<span><span class="co">#&gt; [1]  1.748736776 -0.557734009 -0.684967966 -0.004448797  1.165927221</span></span></code></pre></div>
+<span><span class="co">#&gt; [1]  0.01389482 -0.83693403 -0.98008218 -0.85240931 -0.07387628</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="prying-into-the-memory-map">Prying into the Memory Map<a class="anchor" aria-label="anchor" href="#prying-into-the-memory-map"></a>
@@ -123,7 +123,7 @@ memory (although it’s a kind of virtual pointer because the memory
 exists on disk):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/alt_data1.html">alt_data1</a></span><span class="op">(</span><span class="va">mapped</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;pointer: 0x7f8a156c3000&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; &lt;pointer: 0x7fab9162b000&gt;</span></span></code></pre></div>
 <p>The <code>data2</code> slot contains a list, whose entries are<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://github.com/wch/r-source/blob/a0409ebcd1fc16247812d425085c8a3cc4aa4499/src/main/altclasses.c#L927-L949" class="external-link"&gt;altclasses.c#L927-L949&lt;/a&gt;&lt;/p&gt;'><sup>1</sup></a>:</p>
 <ol style="list-style-type: decimal">
 <li>The name of the file we have memory mapped</li>
@@ -149,7 +149,7 @@ means.</li>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/alt_data2.html">alt_data2</a></span><span class="op">(</span><span class="va">mapped</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpgzpKe6/file10753654b32f6"</span></span>
+<span><span class="co">#&gt; [1] "/tmp/RtmpP3JL1B/file12e9d117b6006"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt; [1] 40  5</span></span>
@@ -161,7 +161,7 @@ easily accessing these fields:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/mmap_details.html">mmap_details</a></span><span class="op">(</span><span class="va">mapped</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $file_name</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpgzpKe6/file10753654b32f6"</span></span>
+<span><span class="co">#&gt; [1] "/tmp/RtmpP3JL1B/file12e9d117b6006"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $size_bytes</span></span>
 <span><span class="co">#&gt; [1] 40</span></span>

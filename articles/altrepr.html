@@ -289,7 +289,7 @@ being generated behind the scenes:</p>
 <span>  <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="op">]</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    user  system elapsed </span></span>
-<span><span class="co">#&gt;   0.772   1.104   1.877</span></span></code></pre></div>
+<span><span class="co">#&gt;   0.782   1.088   1.869</span></span></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/is_altrep.html">is_altrep</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
@@ -316,11 +316,10 @@ slots, but it’s a helpful analogy). These are respectively called
 <code>data1</code> and <code>data2</code>. These slots can store any
 type of R object, including recursive types like lists, so this isn’t
 really a restriction.</p>
-</div>
-<div class="section level2">
-<h2 id="data1">
+<div class="section level3">
+<h3 id="data1">
 <code>data1</code><a class="anchor" aria-label="anchor" href="#data1"></a>
-</h2>
+</h3>
 <p>In the case of compact sequences, <code>data1</code> is used to store
 the parameters of the sequence as a double (not integer!) vector</p>
 <ul>
@@ -355,6 +354,7 @@ information, specifically for compact vectors:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $expanded</span></span>
 <span><span class="co">#&gt; NULL</span></span></code></pre></div>
+</div>
 <div class="section level3">
 <h3 id="data2-and-the-expanded-form">
 <code>data2</code> and the Expanded Form<a class="anchor" aria-label="anchor" href="#data2-and-the-expanded-form"></a>
@@ -367,7 +367,7 @@ types:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span>
 <span><span class="fu"><a href="../reference/alt_inspect.html">alt_inspect</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; @55e9d76557c8 13 INTSXP g0c0 [REF(65535)]  1 : 3 (compact)</span></span></code></pre></div>
+<span><span class="co">#&gt; @55e9271c4e00 13 INTSXP g0c0 [REF(65535)]  1 : 3 (compact)</span></span></code></pre></div>
 <p>“compact” means that <code>data2</code> is <code>NULL</code>, which
 is its initial value:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
@@ -386,7 +386,7 @@ effects:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compact_expand.html">compact_expand</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/alt_inspect.html">alt_inspect</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; @55e9d76557c8 13 INTSXP g0c0 [REF(65535)]  1 : 3 (expanded)</span></span></code></pre></div>
+<span><span class="co">#&gt; @55e9271c4e00 13 INTSXP g0c0 [REF(65535)]  1 : 3 (expanded)</span></span></code></pre></div>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compact_is_expanded.html">compact_is_expanded</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
@@ -401,9 +401,10 @@ form, is now set to a full vector of integer data:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/alt_data2.html">alt_data2</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1 2 3</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="modifying-altrep-data">Modifying ALTREP Data<a class="anchor" aria-label="anchor" href="#modifying-altrep-data"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="modifying-altrep-data">Modifying ALTREP Data<a class="anchor" aria-label="anchor" href="#modifying-altrep-data"></a>
+</h2>
 <p><strong>Note: improperly modifying ALTREP data can be potentially
 very dangerous and will risk crashing or corrupting your R session if
 done incorrectly!</strong>.</p>
@@ -424,7 +425,6 @@ and the length of it to be 2.</p>
 in-place</strong>. As noted above, any copy of a compact sequence will
 no longer be ALTREP. This means that there’s actually no way to make a
 modified copy of <code>x</code> as in normal R.</p>
-</div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
