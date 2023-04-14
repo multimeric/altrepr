@@ -14,6 +14,8 @@ Description: altrepr offers inspection of ALTREP types, specialized constructors
     and inspections for the 4 built-in ALTREP classes in R, detailed vignettes
     that explore these classes, how to use them in R, and their internal 
     workings
+URL: https://multimeric.github.io/altrepr/, https://github.com/multimeric/altrepr
+BugReports: https://github.com/multimeric/altrepr/issues
 License: GPL (>= 3)
 Suggests: 
     knitr,
