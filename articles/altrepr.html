@@ -55,7 +55,14 @@
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
 </form>
 
-      <ul class="navbar-nav"></ul>
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/multimeric/altrepr/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 
     
@@ -70,7 +77,7 @@
       <img src="" class="logo" alt=""><h1>Intro to ALTREP and Compact Sequences</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/multimeric/altrepr/blob/HEAD/vignettes/altrepr.Rmd" class="external-link"><code>vignettes/altrepr.Rmd</code></a></small>
       <div class="d-none name"><code>altrepr.Rmd</code></div>
     </div>
 
@@ -167,7 +174,7 @@ package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"multimeric/altrepr"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">altrepr</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://multimeric.github.io/altrepr/" class="external-link">altrepr</a></span><span class="op">)</span></span></code></pre></div>
 <p>Firstly, we can use the <code><a href="../reference/is_altrep.html">is_altrep()</a></code> function to
 distinguish between ALTREP and ordinary vectors:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -289,7 +296,7 @@ being generated behind the scenes:</p>
 <span>  <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="op">]</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    user  system elapsed </span></span>
-<span><span class="co">#&gt;   0.874   1.154   2.028</span></span></code></pre></div>
+<span><span class="co">#&gt;   0.865   1.183   2.060</span></span></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/is_altrep.html">is_altrep</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
@@ -367,7 +374,7 @@ types:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span>
 <span><span class="fu"><a href="../reference/alt_inspect.html">alt_inspect</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; @55bab0364ae0 13 INTSXP g0c0 [REF(65535)]  1 : 3 (compact)</span></span></code></pre></div>
+<span><span class="co">#&gt; @562ce7edea58 13 INTSXP g0c0 [REF(65535)]  1 : 3 (compact)</span></span></code></pre></div>
 <p>“compact” means that <code>data2</code> is <code>NULL</code>, which
 is its initial value:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
@@ -386,7 +393,7 @@ effects:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compact_expand.html">compact_expand</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/alt_inspect.html">alt_inspect</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; @55bab0364ae0 13 INTSXP g0c0 [REF(65535)]  1 : 3 (expanded)</span></span></code></pre></div>
+<span><span class="co">#&gt; @562ce7edea58 13 INTSXP g0c0 [REF(65535)]  1 : 3 (expanded)</span></span></code></pre></div>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compact_is_expanded.html">compact_is_expanded</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
