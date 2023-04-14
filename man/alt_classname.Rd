@@ -10,7 +10,7 @@ alt_classname(x)
 \item{x}{An ALTREP object of any class}
 }
 \value{
-The class name as a \link{character}
+The class name as a character scalar.
 }
 \description{
 This is a a human-readable name for the altrep class.

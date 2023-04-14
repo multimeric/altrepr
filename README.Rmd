@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/altrepr)](https://CRAN.R-project.org/package=altrepr)
 <!-- badges: end -->
 
-`altrepr` shines light on the mysterious ALTREP objects in R.
+`altrepr` shines light on the enigmatic ALTREP (Alernate Representation) objects in R.
 
 It offers:
 

@@ -14,7 +14,7 @@ The name of the fundamental vector type of that \code{x} is representing,
 as a \link{character} scalar. For example "integer" or "character".
 }
 \description{
-This will almost certainly return the same result as \code{typeof(x)}, but
+This will almost certainly return the same result as \code{typeof(x)}. However,
 the author would be interested to know if it doesn't!
 }
 \examples{

@@ -13,9 +13,11 @@ alt_class(x)
 A raw vector uniquely identifying the altrep class of \code{x}
 }
 \description{
+The altrep class is a \link{raw} vector whose
+value uniquely distinguishes the class from other classes.
 The altrep class is not the same as the name of the class. For that,
-you can use \code{\link[=alt_classname]{alt_classname()}}. The altrep class is a \link{raw} vector whose
-value uniquely distinguishes the class from other classes. You are unlikely
+you can use \code{\link[=alt_classname]{alt_classname()}}.
+You are unlikely
 to find much meaning in the actual vector values, but you might find it
 useful to check if two objects belong to the same class. The other
 meaningful use of the class is to check its \code{\link[=attributes]{attributes()}}, but it is

@@ -212,7 +212,7 @@ analogy). These are respectively called `data1` and `data2`.
 These slots can store any type of R object, including
 recursive types like lists, so this isn't really a restriction. 
 
-## `data1`
+### `data1`
 
 In the case of compact sequences, `data1` is used to store the parameters
 of the sequence as a double (not integer!) vector
@@ -287,7 +287,7 @@ But the `data2` value, which is linked to the expanded form, is now set to a ful
 alt_data2(x)
 ```
 
-### Modifying ALTREP Data
+## Modifying ALTREP Data
 
 **Note: improperly modifying ALTREP data can be potentially very dangerous and will risk crashing or corrupting your R session if done incorrectly!**.
 
@@ -307,5 +307,14 @@ Firstly note that we've taken the range `1:5` and replaced it with `3:4`, becaus
 we set the start of the range to be 3, and the length of it to be 2.
 
 Also, importantly, note that **`x` has been modified in-place**.
-As noted above, any copy of a compact sequence will no longer be ALTREP.
-This means that there's actually no way to make a modified copy of `x` as in normal R.
+This means that any shallow copy of the compact sequence 
+(e.g. `y <- x` below)  will also be modified.
+This means that there's actually no way to make a modified copy of `x` as in normal R:
+
+```{r}
+x <- 1:5
+y <- x
+set_alt_data1(x, c(2, 3, 1))
+y
+```
+

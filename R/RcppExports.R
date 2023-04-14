@@ -3,9 +3,11 @@
 
 #' Gets the altrep class of an object.
 #'
+#' The altrep class is a [raw] vector whose
+#' value uniquely distinguishes the class from other classes.
 #' The altrep class is not the same as the name of the class. For that,
-#' you can use [alt_classname()]. The altrep class is a [raw] vector whose
-#' value uniquely distinguishes the class from other classes. You are unlikely
+#' you can use [alt_classname()].
+#' You are unlikely
 #' to find much meaning in the actual vector values, but you might find it
 #' useful to check if two objects belong to the same class. The other
 #' meaningful use of the class is to check its [attributes()], but it is
@@ -27,7 +29,7 @@ alt_class <- function(x) {
 #' This is a a human-readable name for the altrep class.
 #' @export
 #' @inheritParams alt_class
-#' @return The class name as a [character]
+#' @return The class name as a character scalar.
 #' @examples
 #' alt_classname(1:3)
 alt_classname <- function(x) {
@@ -36,14 +38,11 @@ alt_classname <- function(x) {
 
 #' Gets the package in which an ALTREP class was defined
 #'
-#' Specifically this finds the name of the package in which the altrep class
-#' was defined. This is almost definitely not the same as the S3/S4 [class()],
-#' was defined, which is likely to be one of the core vector types like
-#' `integer`.
+#' This finds the name of the package in which the ALTREP class
+#' was defined.
 #' @export
 #' @inheritParams alt_class
-#' @return The package name as a [character], or `NULL` if `x` is not an altrep
-#'   object.
+#' @return The package name as a character scalar.
 #' @examples
 #' alt_pkgname(1:3)
 alt_pkgname <- function(x) {
@@ -52,7 +51,7 @@ alt_pkgname <- function(x) {
 
 #' Gets the name of the type that this ALTREP is representing.
 #'
-#' This will almost certainly return the same result as `typeof(x)`, but
+#' This will almost certainly return the same result as `typeof(x)`. However,
 #' the author would be interested to know if it doesn't!
 #' @export
 #' @inheritParams alt_class
@@ -72,7 +71,7 @@ alt_type <- function(x) {
 #' achieve.
 #' @param x Any R object
 #' @export
-#' @return A scalar logical
+#' @return A scalar logical. `TRUE` if `x` is ALTREP, otherwise `FALSE`.
 #' @examples
 #' is_altrep(1)
 #' is_altrep(1:2)
@@ -107,7 +106,7 @@ alt_data1 <- function(x) {
 #' @note **Warning**: storing the result will cause an R session crash with a
 #' `deferred_string` ALTREP object.
 #' @examples
-#' alt_data2(1:3)
+#' sort(3:1) |> alt_data2()
 alt_data2 <- function(x) {
     .Call('_altrepr_alt_data2', PACKAGE = 'altrepr', x)
 }

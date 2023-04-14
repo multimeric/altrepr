@@ -29,5 +29,5 @@ information.
 \code{deferred_string} ALTREP object.
 }
 \examples{
-alt_data2(1:3)
+sort(3:1) |> alt_data2()
 }

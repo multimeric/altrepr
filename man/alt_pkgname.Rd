@@ -10,14 +10,11 @@ alt_pkgname(x)
 \item{x}{An ALTREP object of any class}
 }
 \value{
-The package name as a \link{character}, or \code{NULL} if \code{x} is not an altrep
-object.
+The package name as a character scalar.
 }
 \description{
-Specifically this finds the name of the package in which the altrep class
-was defined. This is almost definitely not the same as the S3/S4 \code{\link[=class]{class()}},
-was defined, which is likely to be one of the core vector types like
-\code{integer}.
+This finds the name of the package in which the ALTREP class
+was defined.
 }
 \examples{
 alt_pkgname(1:3)

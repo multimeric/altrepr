@@ -10,7 +10,7 @@ is_altrep(x)
 \item{x}{Any R object}
 }
 \value{
-A scalar logical
+A scalar logical. \code{TRUE} if \code{x} is ALTREP, otherwise \code{FALSE}.
 }
 \description{
 This checks if \code{x} is an instance of an ALTREP class. Notably it doesn't
