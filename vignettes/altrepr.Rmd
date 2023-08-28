@@ -72,7 +72,7 @@ like S3 or S4, since they support overriding the behaviour of `length`,
 Let's get hands-on with  `altrepr` by looking at the "compact sequences",
 perhaps the most famous ALTREP class in R.
 
-Compact sequences [were introduced in R 3.5.0](https://cran.r-project.org/bin/windows/base/old/3.5.0/NEWS.R-3.5.0.html).
+Compact sequences [were introduced in R 3.5.0](https://cran-archive.r-project.org/bin/windows/base/old/3.5.0/NEWS.R-3.5.0.html).
 They are simply integer (or double) vectors that are represented as a "range": they store the start, length, and step of a sequence, rather than storing every individual element in that range, which can save a lot of memory. 
 Compact sequences are created by the `:` operator, and by the `seq` family of functions. 
 Let's investigate!
